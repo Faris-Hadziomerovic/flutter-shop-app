@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../screens/product_details_screen.dart';
+
 class ProductItem extends StatelessWidget {
   final String id;
   final String title;
@@ -15,6 +17,13 @@ class ProductItem extends StatelessWidget {
   });
 
   String get priceTag => '\$${price.toStringAsFixed(2)}';
+
+  void navigateToDetailsScreen(BuildContext context) {
+    Navigator.of(context).pushNamed(
+      ProductDetailsScreen.routeName,
+      arguments: id,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,9 +47,12 @@ class ProductItem extends StatelessWidget {
           ),
         ),
       ),
-      child: Image.network(
-        imageUrl,
-        fit: BoxFit.cover,
+      child: GestureDetector(
+        onTap: () => navigateToDetailsScreen(context),
+        child: Image.network(
+          imageUrl,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }

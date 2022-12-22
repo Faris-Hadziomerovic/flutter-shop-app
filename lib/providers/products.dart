@@ -1,7 +1,10 @@
+import 'package:flutter/material.dart';
+import 'package:collection/collection.dart';
+
 import '../models/product.dart';
 
-class Products {
-  final List<Product> _items = [
+class Products with ChangeNotifier {
+  final List<Product> _products = [
     Product(
       id: 'p1',
       title: 'Red Shirt',
@@ -34,5 +37,28 @@ class Products {
     ),
   ];
 
-  List<Product> get products => [..._items];
+  List<Product> get products => [..._products];
+
+  Product getById(String id) {
+    return products.firstWhere((product) => product.id == id);
+  }
+
+  void add(Product product) {
+    _products.add(product);
+    notifyListeners();
+  }
+
+  void remove(Product product) {
+    if (_products.remove(product)) {
+      notifyListeners();
+    }
+  }
+
+  void removeById(String id) {
+    final product = _products.firstWhereOrNull((product) => product.id == id);
+
+    if (product != null) {
+      remove(product);
+    }
+  }
 }
