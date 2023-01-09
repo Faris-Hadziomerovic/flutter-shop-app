@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/providers/products_provider.dart';
 
 import '../screens/product_details_screen.dart';
 
@@ -7,6 +9,7 @@ class ProductItem extends StatelessWidget {
   final String title;
   final String imageUrl;
   final double price;
+  final bool isFavourite;
 
   const ProductItem({
     super.key,
@@ -14,9 +17,15 @@ class ProductItem extends StatelessWidget {
     required this.imageUrl,
     required this.id,
     required this.price,
+    required this.isFavourite,
   });
 
   String get priceTag => '\$${price.toStringAsFixed(2)}';
+
+  void onFavourite(BuildContext context) {
+    Provider.of<Products>(context, listen: false).toggleFavourite(id);
+    // context.read<Products>().toggleFavourite(id);
+  }
 
   void navigateToDetailsScreen(BuildContext context) {
     Navigator.of(context).pushNamed(
@@ -33,8 +42,11 @@ class ProductItem extends StatelessWidget {
         child: GridTileBar(
           backgroundColor: Colors.black38,
           leading: IconButton(
-            icon: const Icon(Icons.favorite),
-            onPressed: () {},
+            icon: Icon(
+              Icons.favorite,
+              color: isFavourite ? Colors.red : Colors.white60,
+            ),
+            onPressed: () => onFavourite(context),
           ),
           trailing: IconButton(
             icon: const Icon(Icons.shopping_cart),

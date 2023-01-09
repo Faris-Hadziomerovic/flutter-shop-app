@@ -48,6 +48,15 @@ class Products with ChangeNotifier {
     notifyListeners();
   }
 
+  void toggleFavourite(String id) {
+    var product = _products.firstWhereOrNull((product) => product.id == id);
+
+    if (product != null) {
+      product.isFavourite = !product.isFavourite;
+      notifyListeners();
+    }
+  }
+
   void remove(Product product) {
     if (_products.remove(product)) {
       notifyListeners();
