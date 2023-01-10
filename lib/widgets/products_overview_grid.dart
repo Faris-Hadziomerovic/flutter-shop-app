@@ -1,17 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../enums/filter_options.dart';
 import '../providers/products_provider.dart';
 import './product_item.dart';
 
 class ProductsOverviewGrid extends StatelessWidget {
-  const ProductsOverviewGrid({super.key});
+  final FilterOptions filterOptions;
+
+  const ProductsOverviewGrid({super.key, this.filterOptions = FilterOptions.all});
 
   @override
   Widget build(BuildContext context) {
     final orientation = MediaQuery.of(context).orientation;
-    final products = Provider.of<Products>(context).products;
+    final productsProvider = Provider.of<Products>(context);
     // final products = context.watch<Products>().products;
+    final products = filterOptions == FilterOptions.favourites
+        ? productsProvider.favouriteProducts
+        : productsProvider.products;
 
     return GridView.builder(
       padding: const EdgeInsets.symmetric(
