@@ -27,12 +27,9 @@ class ProductsOverviewGrid extends StatelessWidget {
       ),
       itemCount: products.length,
       itemBuilder: (context, index) {
-        return ProductItem(
-          id: products[index].id,
-          title: products[index].title,
-          imageUrl: products[index].imageUrl,
-          price: products[index].price,
-          isFavourite: products[index].isFavourite,
+        return ChangeNotifierProvider.value(
+          value: products[index],
+          child: const ProductItem(),
         );
       },
     );

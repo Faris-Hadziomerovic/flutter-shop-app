@@ -21,9 +21,7 @@ class ProductDetailsScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: IconButton(
-              onPressed: () {
-                context.read<Products>().toggleFavourite(productId);
-              },
+              onPressed: null,
               icon: Icon(product.isFavourite ? Icons.favorite : Icons.favorite_outline),
             ),
           )

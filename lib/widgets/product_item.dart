@@ -1,33 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/providers/products_provider.dart';
 
+import '../providers/product.dart';
 import '../screens/product_details_screen.dart';
 
 class ProductItem extends StatelessWidget {
-  final String id;
-  final String title;
-  final String imageUrl;
-  final double price;
-  final bool isFavourite;
-
-  const ProductItem({
-    super.key,
-    required this.title,
-    required this.imageUrl,
-    required this.id,
-    required this.price,
-    required this.isFavourite,
-  });
-
-  String get priceTag => '\$${price.toStringAsFixed(2)}';
+  const ProductItem({super.key});
 
   void onFavourite(BuildContext context) {
-    Provider.of<Products>(context, listen: false).toggleFavourite(id);
-    // context.read<Products>().toggleFavourite(id);
+    Provider.of<Product>(context, listen: false).toggleFavourite();
+    // context.read<Product>().toggleFavourite();
   }
 
-  void navigateToDetailsScreen(BuildContext context) {
+  void navigateToDetailsScreen(BuildContext context, String id) {
     Navigator.of(context).pushNamed(
       ProductDetailsScreen.routeName,
       arguments: id,
@@ -36,6 +21,10 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final product = Provider.of<Product>(context);
+
+    final priceTag = '\$${product.price.toStringAsFixed(2)}';
+
     return GridTile(
       footer: SizedBox(
         height: 50,
@@ -44,7 +33,7 @@ class ProductItem extends StatelessWidget {
           leading: IconButton(
             icon: Icon(
               Icons.favorite,
-              color: isFavourite ? Colors.red : Colors.white60,
+              color: product.isFavourite ? Colors.red : Colors.white60,
             ),
             onPressed: () => onFavourite(context),
           ),
@@ -52,7 +41,7 @@ class ProductItem extends StatelessWidget {
             icon: const Icon(Icons.shopping_cart),
             onPressed: () {},
           ),
-          title: Text(title),
+          title: Text(product.title),
           subtitle: Text(
             priceTag,
             style: const TextStyle(color: Colors.white),
@@ -60,9 +49,9 @@ class ProductItem extends StatelessWidget {
         ),
       ),
       child: GestureDetector(
-        onTap: () => navigateToDetailsScreen(context),
+        onTap: () => navigateToDetailsScreen(context, product.id),
         child: Image.network(
-          imageUrl,
+          product.imageUrl,
           fit: BoxFit.cover,
         ),
       ),
