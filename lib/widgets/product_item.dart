@@ -2,21 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/product.dart';
+import '../providers/cart_provider.dart';
 import '../screens/product_details_screen.dart';
 
 class ProductItem extends StatelessWidget {
   const ProductItem({super.key});
-
-  void onFavourite(BuildContext context) {
-    Provider.of<Product>(context, listen: false).toggleFavourite();
-    // context.read<Product>().toggleFavourite();
-  }
 
   void navigateToDetailsScreen(BuildContext context, String id) {
     Navigator.of(context).pushNamed(
       ProductDetailsScreen.routeName,
       arguments: id,
     );
+  }
+
+  void onFavourite(BuildContext context, String id) {
+    Provider.of<Product>(context, listen: false).toggleFavourite();
+    // context.read<Product>().toggleFavourite();
+  }
+
+  void onAddToCart(BuildContext context, Product product) {
+    Provider.of<Cart>(context, listen: false).addItem(
+      itemId: product.id,
+      title: product.title,
+      price: product.price,
+    );
+
+    // TODO: add toasty message to inform of the added item
   }
 
   @override
@@ -35,11 +46,11 @@ class ProductItem extends StatelessWidget {
               Icons.favorite,
               color: product.isFavourite ? Colors.red : Colors.white60,
             ),
-            onPressed: () => onFavourite(context),
+            onPressed: () => onFavourite(context, product.id),
           ),
           trailing: IconButton(
             icon: const Icon(Icons.shopping_cart),
-            onPressed: () {},
+            onPressed: () => onAddToCart(context, product),
           ),
           title: Text(product.title),
           subtitle: Text(
