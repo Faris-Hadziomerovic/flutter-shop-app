@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/widgets/badge.dart';
+import 'package:shop_app/widgets/notifications_badge.dart';
 
 import '../enums/filter_options.dart';
 import '../providers/cart_provider.dart';
