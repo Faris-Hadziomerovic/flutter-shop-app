@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shop_app/widgets/badge.dart';
 
 import '../enums/filter_options.dart';
+import '../providers/cart_provider.dart';
 import '../widgets/products_overview_grid.dart';
 
 class ProductsOverviewScreen extends StatefulWidget {
@@ -23,8 +26,21 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
       appBar: AppBar(
         title: Text(widget.title),
         actions: [
+          SizedBox(
+            width: 55,
+            child: Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: Consumer<Cart>(
+                builder: (_, cart, icon) => NotificationsBadge(
+                  quantity: cart.numberOfCartItems,
+                  child: icon as Widget,
+                ),
+                child: const Icon(Icons.shopping_cart),
+              ),
+            ),
+          ),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
+            padding: const EdgeInsets.only(right: 15.0),
             child: PopupMenuButton(
               child: const Icon(Icons.more_vert),
               onSelected: (value) {
@@ -45,7 +61,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                 ];
               },
             ),
-          )
+          ),
         ],
       ),
       body: ProductsOverviewGrid(filterOptions: _filterOptions),

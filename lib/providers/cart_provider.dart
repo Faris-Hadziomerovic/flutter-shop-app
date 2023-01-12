@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/constants/exception_message_constants.dart';
 
+import '../constants/exception_message_constants.dart';
 import '../exceptions/remove_cart_item_exception.dart';
 import '../exceptions/add_cart_item_exception.dart';
 import '../models/cart_item.dart';
@@ -9,6 +9,16 @@ class Cart with ChangeNotifier {
   final Map<String, CartItem> _cart = {};
 
   Map<String, CartItem> get cart => {..._cart};
+
+  int get numberOfCartItems {
+    int quantity = 0;
+
+    for (var item in _cart.values) {
+      quantity += item.quantity;
+    }
+
+    return quantity;
+  }
 
   void addItem({
     required String itemId,

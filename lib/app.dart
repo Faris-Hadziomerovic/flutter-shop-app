@@ -19,7 +19,11 @@ class App extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          primarySwatch: Colors.red,
+          colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.red,
+            primary: Colors.red,
+            secondary: Colors.amber,
+          ),
           textTheme: const TextTheme(),
           cardTheme: const CardTheme(
             elevation: 5,
