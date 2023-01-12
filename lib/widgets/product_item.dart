@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/product.dart';
@@ -27,7 +28,10 @@ class ProductItem extends StatelessWidget {
       price: product.price,
     );
 
-    // TODO: add toasty message to inform of the added item
+    Fluttertoast.showToast(
+      msg: '${product.title} added to cart.',
+      backgroundColor: Colors.black54,
+    );
   }
 
   @override
