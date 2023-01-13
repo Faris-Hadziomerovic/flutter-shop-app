@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shop_app/screens/cart_screen.dart';
 import 'package:shop_app/widgets/notifications_badge.dart';
 
 import '../enums/filter_options.dart';
 import '../providers/cart_provider.dart';
-import '../widgets/products_overview_grid.dart';
+import '../widgets/products_grid.dart';
 
 class ProductsOverviewScreen extends StatefulWidget {
   static const routeName = '/products-overview-screen';
@@ -20,22 +21,29 @@ class ProductsOverviewScreen extends StatefulWidget {
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   FilterOptions _filterOptions = FilterOptions.all;
 
+  void onNavigateToCart(BuildContext context) {
+    Navigator.pushNamed(context, CartScreen.routeName);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
         actions: [
-          SizedBox(
-            width: 55,
-            child: Padding(
-              padding: const EdgeInsets.all(5.0),
-              child: Consumer<Cart>(
-                builder: (_, cart, icon) => NotificationsBadge(
-                  quantity: cart.numberOfCartItems,
-                  child: icon as Widget,
+          GestureDetector(
+            onTap: () => onNavigateToCart(context),
+            child: SizedBox(
+              width: 55,
+              child: Padding(
+                padding: const EdgeInsets.all(5.0),
+                child: Consumer<Cart>(
+                  builder: (_, cart, icon) => NotificationsBadge(
+                    quantity: cart.itemCount,
+                    child: icon as Widget,
+                  ),
+                  child: const Icon(Icons.shopping_cart),
                 ),
-                child: const Icon(Icons.shopping_cart),
               ),
             ),
           ),
@@ -64,7 +72,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
           ),
         ],
       ),
-      body: ProductsOverviewGrid(filterOptions: _filterOptions),
+      body: ProductsGrid(filterOptions: _filterOptions),
     );
   }
 }

@@ -5,6 +5,7 @@ import './providers/cart_provider.dart';
 import './providers/products_provider.dart';
 import './screens/product_details_screen.dart';
 import './screens/products_overview_screen.dart';
+import './screens/cart_screen.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -38,6 +39,7 @@ class App extends StatelessWidget {
         routes: {
           ProductsOverviewScreen.routeName: (context) => const ProductsOverviewScreen(),
           ProductDetailsScreen.routeName: (context) => const ProductDetailsScreen(),
+          CartScreen.routeName: (context) => const CartScreen(),
           // ___Screen.routeName: (context) => const ___Screen(),
         },
       ),

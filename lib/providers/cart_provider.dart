@@ -10,7 +10,11 @@ class Cart with ChangeNotifier {
 
   Map<String, CartItem> get cart => {..._cart};
 
-  int get numberOfCartItems {
+  bool get cartIsEmpty => _cart.isEmpty;
+
+  bool get cartIsNotEmpty => _cart.isNotEmpty;
+
+  int get itemCount {
     int quantity = 0;
 
     for (var item in _cart.values) {
@@ -18,6 +22,16 @@ class Cart with ChangeNotifier {
     }
 
     return quantity;
+  }
+
+  double get totalAmount {
+    double total = 0.00;
+
+    for (var item in _cart.values) {
+      total += item.price * item.quantity;
+    }
+
+    return total;
   }
 
   void addItem({
@@ -47,7 +61,7 @@ class Cart with ChangeNotifier {
       _cart.putIfAbsent(
         itemId,
         () => CartItem(
-          id: '${DateTime.now().millisecondsSinceEpoch}',
+          id: itemId,
           name: title,
           price: price,
           quantity: quantity,
@@ -59,25 +73,25 @@ class Cart with ChangeNotifier {
   }
 
   void removeItem({
-    required String itemId,
+    required String productId,
     int quantity = 1,
   }) {
-    if (itemId.isEmpty || quantity < 1) {
+    if (productId.isEmpty || quantity < 1) {
       throw RemoveCartItemException();
     }
 
-    if (!_cart.containsKey(itemId)) {
+    if (!_cart.containsKey(productId)) {
       throw RemoveCartItemException(
         message: ExceptionMessageConstants.cartItemToRemoveDoesNotExist,
       );
     }
 
-    final inCartQuantity = _cart[itemId]!.quantity;
+    final inCartQuantity = _cart[productId]!.quantity;
 
     if (quantity >= inCartQuantity) {
-      _cart.removeWhere((id, item) => id == itemId);
+      _cart.removeWhere((id, item) => id == productId);
     } else {
-      _cart[itemId]?.quantity -= quantity;
+      _cart[productId]?.quantity -= quantity;
     }
 
     notifyListeners();

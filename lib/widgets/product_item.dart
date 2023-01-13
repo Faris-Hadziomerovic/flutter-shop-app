@@ -37,7 +37,6 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context);
-
     final priceTag = '\$${product.price.toStringAsFixed(2)}';
 
     return GridTile(

@@ -5,10 +5,10 @@ import '../enums/filter_options.dart';
 import '../providers/products_provider.dart';
 import './product_item.dart';
 
-class ProductsOverviewGrid extends StatelessWidget {
+class ProductsGrid extends StatelessWidget {
   final FilterOptions filterOptions;
 
-  const ProductsOverviewGrid({super.key, this.filterOptions = FilterOptions.all});
+  const ProductsGrid({super.key, this.filterOptions = FilterOptions.all});
 
   @override
   Widget build(BuildContext context) {
