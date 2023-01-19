@@ -9,8 +9,9 @@ class Checkout extends StatelessWidget {
   final Color? textColor;
   final Color? buttonColor;
   final Color? buttonTextColor;
-  final double height;
   final double width;
+  final double height;
+  final Axis direction;
 
   const Checkout({
     super.key,
@@ -18,9 +19,10 @@ class Checkout extends StatelessWidget {
     this.textColor,
     this.buttonColor,
     this.buttonTextColor,
-    this.height = 150,
     this.width = double.infinity,
-  });
+    this.height = 150,
+    this.direction = Axis.vertical,
+  }) : assert(!(direction == Axis.horizontal && width == double.infinity));
 
   onCheckout(BuildContext context) {
     // the context will be kept in the method for using the toast with context later on...
@@ -45,59 +47,73 @@ class Checkout extends StatelessWidget {
     final textStyle =
         Theme.of(context).textTheme.headline6?.copyWith(color: textColor ?? Colors.black);
 
-    return Column(
-      children: [
-        Container(
-          width: width,
-          height: height / 2,
-          decoration: BoxDecoration(
-            color: bgColor,
-            border: const Border(
-              top: BorderSide(color: Colors.black38, width: 0),
-              bottom: BorderSide(color: Colors.black38, width: 0),
+    return Container(
+      decoration: BoxDecoration(
+        color: bgColor,
+        border: const Border(
+          top: BorderSide(color: Colors.black38, width: 0),
+          bottom: BorderSide(color: Colors.black38, width: 0),
+        ),
+      ),
+      child: Flex(
+        direction: direction,
+        children: [
+          SizedBox(
+            width: direction == Axis.vertical ? width : width / 2,
+            height: height / 2,
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Text(
+                    'TOTAL:',
+                    style: textStyle,
+                  ),
+                ),
+                const Spacer(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                  child: Text(
+                    totalPriceLabel,
+                    style: textStyle,
+                  ),
+                ),
+              ],
             ),
           ),
-          child: Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(20.0),
+          direction == Axis.vertical
+              ? const Divider(
+                  height: 0,
+                  thickness: 1,
+                )
+              : SizedBox(
+                  height: height / 2.5,
+                  child: const VerticalDivider(
+                    width: 0,
+                    thickness: 1,
+                  ),
+                ),
+          SizedBox(
+            width: direction == Axis.vertical ? width : width / 2,
+            height: height / 2,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 8.0,
+                vertical: 8.0,
+              ),
+              child: ElevatedButton(
+                onPressed: canCheckout ? () => onCheckout(context) : null,
                 child: Text(
-                  'TOTAL:',
-                  style: textStyle,
+                  'Checkout',
+                  style: Theme.of(context).textTheme.headline6?.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
                 ),
               ),
-              const Spacer(),
-              Padding(
-                padding: const EdgeInsets.all(25.0),
-                child: Text(
-                  totalPriceLabel,
-                  style: textStyle,
-                ),
-              ),
-            ],
-          ),
-        ),
-        Container(
-          width: width,
-          height: height / 2,
-          color: bgColor,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 8.0,
-              vertical: 8.0,
-            ),
-            child: ElevatedButton(
-              onPressed: canCheckout ? () => onCheckout(context) : null,
-              child: Text(
-                'Checkout',
-                style: Theme.of(context).textTheme.headline6?.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
-              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

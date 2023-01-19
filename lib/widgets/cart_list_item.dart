@@ -27,59 +27,81 @@ class CartListItem extends StatelessWidget {
     return '\$${price.toStringAsFixed(2)}';
   }
 
-  void onRemoveCartItem(BuildContext context) {
-    Provider.of<Cart>(context, listen: false).removeItem(productId: id);
+  void onDecreaseCartItemQuantity(BuildContext context) {
+    Provider.of<Cart>(context, listen: false).decreaseItemQuantity(productId: id);
+  }
+
+  void onRemoveCartItemCompletely(BuildContext context) {
+    Provider.of<Cart>(context, listen: false).removeItemFromCart(productId: id);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(
-        vertical: 3,
-        horizontal: 10,
-      ),
-      child: ListTile(
-        leading: Container(
-          width: 75,
-          height: 40,
-          padding: const EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            color: Theme.of(context).colorScheme.secondary,
-            borderRadius: const BorderRadius.all(Radius.circular(10)),
+    return Dismissible(
+      key: ValueKey(id),
+      confirmDismiss: (direction) async {
+        if (direction == DismissDirection.startToEnd || quantity == 1) {
+          return true;
+        } else {
+          onDecreaseCartItemQuantity(context);
+          return false;
+        }
+      },
+      onDismissed: (direction) {
+        onRemoveCartItemCompletely(context);
+      },
+      background: Container(
+        alignment: Alignment.centerLeft,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+          child: Icon(
+            Icons.delete,
+            size: 35,
+            color: Theme.of(context).errorColor,
           ),
-          child: FittedBox(
-            child: Text(
-              totalPriceLabel,
-              style: Theme.of(context).textTheme.headline6?.copyWith(
-                    fontSize: 17,
-                    color: Colors.white,
-                  ),
+        ),
+      ),
+      secondaryBackground: Container(
+        alignment: Alignment.centerRight,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 30.0),
+          child: Icon(
+            Icons.exposure_minus_1_rounded,
+            size: 35,
+            color: Theme.of(context).errorColor,
+          ),
+        ),
+      ),
+      child: Card(
+        margin: const EdgeInsets.symmetric(
+          vertical: 3,
+          horizontal: 0,
+        ),
+        child: ListTile(
+          leading: Container(
+            width: 75,
+            height: 40,
+            padding: const EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.secondary,
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
+            ),
+            child: FittedBox(
+              child: Text(
+                totalPriceLabel,
+                style: Theme.of(context).textTheme.headline6?.copyWith(
+                      fontSize: 17,
+                      color: Colors.white,
+                    ),
+              ),
             ),
           ),
+          title: Text(
+            title,
+            style: Theme.of(context).textTheme.headline6,
+          ),
+          subtitle: Text("$quantity × $priceLabel"),
         ),
-        title: Text(
-          title,
-          style: Theme.of(context).textTheme.headline6,
-        ),
-        subtitle: Text("$quantity × $priceLabel"),
-        trailing: MediaQuery.of(context).size.width > 450
-            ? TextButton.icon(
-                onPressed: () => onRemoveCartItem(context),
-                icon: const Icon(Icons.delete_forever_rounded),
-                label: const Text('Remove'),
-                style: ButtonStyle(
-                  foregroundColor: MaterialStatePropertyAll(
-                    Theme.of(context).errorColor,
-                  ),
-                ),
-              )
-            : IconButton(
-                onPressed: () => onRemoveCartItem(context),
-                icon: Icon(
-                  Icons.delete_forever_rounded,
-                  color: Theme.of(context).errorColor,
-                ),
-              ),
       ),
     );
   }

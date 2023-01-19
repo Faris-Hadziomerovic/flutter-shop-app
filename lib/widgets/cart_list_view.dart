@@ -30,8 +30,8 @@ class CartListView extends StatelessWidget {
               ),
             )
           : ListView.builder(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
               itemCount: items.length,
-              reverse: false,
               itemBuilder: (ctx, index) {
                 final cartItem = items[items.length - 1 - index];
                 return CartListItem(

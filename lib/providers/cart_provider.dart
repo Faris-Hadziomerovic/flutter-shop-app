@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/exceptions/item_does_not_exist_exception.dart';
 
 import '../constants/exception_message_constants.dart';
 import '../exceptions/remove_cart_item_exception.dart';
@@ -32,6 +33,14 @@ class Cart with ChangeNotifier {
     }
 
     return total;
+  }
+
+  int getItemQuantityCount(String itemId) {
+    if (!_cart.containsKey(itemId)) {
+      throw ItemDoesNotExistException();
+    }
+
+    return _cart[itemId]!.quantity;
   }
 
   void addItem({
@@ -72,7 +81,7 @@ class Cart with ChangeNotifier {
     notifyListeners();
   }
 
-  void removeItem({
+  void decreaseItemQuantity({
     required String productId,
     int quantity = 1,
   }) {
@@ -93,6 +102,24 @@ class Cart with ChangeNotifier {
     } else {
       _cart[productId]?.quantity -= quantity;
     }
+
+    notifyListeners();
+  }
+
+  void removeItemFromCart({
+    required String productId,
+  }) {
+    if (productId.isEmpty) {
+      throw RemoveCartItemException();
+    }
+
+    if (!_cart.containsKey(productId)) {
+      throw RemoveCartItemException(
+        message: ExceptionMessageConstants.cartItemToRemoveDoesNotExist,
+      );
+    }
+
+    _cart.removeWhere((id, item) => id == productId);
 
     notifyListeners();
   }

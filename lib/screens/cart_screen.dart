@@ -15,11 +15,15 @@ class CartScreen extends StatelessWidget {
     );
 
     final mediaQuery = MediaQuery.of(context);
+    final screenWidth = mediaQuery.size.width;
     final screenHeight = mediaQuery.size.height;
     final toolBarHeight = mediaQuery.padding.top;
     final appBarHeight = appBar.preferredSize.height;
     final usableHeight = screenHeight - appBarHeight - toolBarHeight;
     const checkoutHeight = 150.0;
+
+    final viewIsNarrow = screenWidth < 450;
+    final direction = viewIsNarrow ? Axis.vertical : Axis.horizontal;
 
     return Scaffold(
       appBar: appBar,
@@ -27,11 +31,13 @@ class CartScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           CartListView(
-            height: usableHeight - checkoutHeight,
+            height:
+                viewIsNarrow ? usableHeight - checkoutHeight : usableHeight - (checkoutHeight / 2),
           ),
-          const Checkout(
-            width: double.infinity,
+          Checkout(
+            width: screenWidth,
             height: checkoutHeight,
+            direction: direction,
           ),
         ],
       ),
