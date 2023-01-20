@@ -35,6 +35,11 @@ class Cart with ChangeNotifier {
     return total;
   }
 
+  void clear() {
+    _cart.clear();
+    notifyListeners();
+  }
+
   int getItemQuantityCount(String itemId) {
     if (!_cart.containsKey(itemId)) {
       throw ItemDoesNotExistException();

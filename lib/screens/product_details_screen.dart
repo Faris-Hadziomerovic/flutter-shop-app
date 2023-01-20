@@ -27,7 +27,54 @@ class ProductDetailsScreen extends StatelessWidget {
           )
         ],
       ),
-      body: Text(product.description),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(
+              height: 300,
+              width: double.infinity,
+              child: Image.network(
+                product.imageUrl,
+                fit: BoxFit.cover,
+              ),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Text(
+                product.title,
+                textAlign: TextAlign.left,
+                // change the style further
+                style: Theme.of(context).textTheme.headline5?.copyWith(),
+              ),
+            ),
+            const SizedBox(height: 5),
+            Container(
+              width: double.infinity,
+              margin: const EdgeInsets.symmetric(horizontal: 15.0),
+              child: Text(
+                '\$${product.price.toStringAsFixed(2)}',
+                textAlign: TextAlign.left,
+                style: Theme.of(context).textTheme.headline5?.copyWith(
+                      color: Colors.grey.shade600,
+                    ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 10.0),
+              width: double.infinity,
+              child: Text(
+                product.description,
+                textAlign: TextAlign.left,
+                // change the style further
+                style: Theme.of(context).textTheme.bodyText2?.copyWith(),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

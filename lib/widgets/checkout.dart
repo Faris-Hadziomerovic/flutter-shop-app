@@ -3,6 +3,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/cart_provider.dart';
+import '../providers/orders_provider.dart';
+import '../screens/orders_screen.dart';
 
 class Checkout extends StatelessWidget {
   final Color? backgroundColor;
@@ -26,12 +28,19 @@ class Checkout extends StatelessWidget {
 
   onCheckout(BuildContext context) {
     // the context will be kept in the method for using the toast with context later on...
-    // final subtotal = Provider.of<Cart>(context, listen: false).totalAmount;
 
     Fluttertoast.showToast(
       backgroundColor: Colors.black54,
       msg: 'Successful purchase! \nYour items will be on their way shortly',
     );
+
+    final cartData = Provider.of<Cart>(context, listen: false);
+    final subtotal = cartData.totalAmount;
+    final cartItems = cartData.cart.values.toList();
+
+    Provider.of<Orders>(context, listen: false).addOrders(cartItems, subtotal);
+    Navigator.of(context).pushReplacementNamed(OrdersScreen.routeName);
+    cartData.clear();
   }
 
   @override
