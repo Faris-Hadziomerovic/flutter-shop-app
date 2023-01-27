@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:shop_app/exceptions/item_does_not_exist_exception.dart';
+import 'package:flutter/foundation.dart';
 
 import '../constants/exception_message_constants.dart';
-import '../exceptions/remove_cart_item_exception.dart';
 import '../exceptions/add_cart_item_exception.dart';
+import '../exceptions/item_does_not_exist_exception.dart';
+import '../exceptions/remove_cart_item_exception.dart';
 import '../models/cart_item.dart';
 
 class Cart with ChangeNotifier {

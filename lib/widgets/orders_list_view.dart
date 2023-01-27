@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shop_app/widgets/orders_list_item.dart';
 
 import '../providers/orders_provider.dart';
+import './orders_list_item.dart';
 
 class OrdersList extends StatelessWidget {
   const OrdersList({super.key});

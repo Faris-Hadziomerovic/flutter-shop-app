@@ -1,7 +1,7 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:collection/collection.dart';
 
-import 'product.dart';
+import './product.dart';
 
 class Products with ChangeNotifier {
   final List<Product> _products = [
