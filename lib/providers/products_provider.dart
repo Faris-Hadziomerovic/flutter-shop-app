@@ -1,7 +1,10 @@
-import '../models/product.dart';
+import 'package:flutter/foundation.dart';
+import 'package:collection/collection.dart';
 
-class Products {
-  final List<Product> _items = [
+import './product.dart';
+
+class Products with ChangeNotifier {
+  final List<Product> _products = [
     Product(
       id: 'p1',
       title: 'Red Shirt',
@@ -34,5 +37,39 @@ class Products {
     ),
   ];
 
-  List<Product> get products => [..._items];
+  List<Product> get products => [..._products];
+
+  List<Product> get favouriteProducts => [..._products.where((product) => product.isFavourite)];
+
+  Product getById(String id) {
+    return products.firstWhere((product) => product.id == id);
+  }
+
+  void add(Product product) {
+    _products.add(product);
+    notifyListeners();
+  }
+
+  void toggleFavourite(String id) {
+    var product = _products.firstWhereOrNull((product) => product.id == id);
+
+    if (product != null) {
+      product.isFavourite = !product.isFavourite;
+      notifyListeners();
+    }
+  }
+
+  void remove(Product product) {
+    if (_products.remove(product)) {
+      notifyListeners();
+    }
+  }
+
+  void removeById(String id) {
+    final product = _products.firstWhereOrNull((product) => product.id == id);
+
+    if (product != null) {
+      remove(product);
+    }
+  }
 }

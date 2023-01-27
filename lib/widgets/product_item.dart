@@ -1,46 +1,73 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
+import '../providers/cart_provider.dart';
+import '../providers/product.dart';
+import '../screens/product_details_screen.dart';
 
 class ProductItem extends StatelessWidget {
-  final String id;
-  final String title;
-  final String imageUrl;
-  final double price;
+  const ProductItem({super.key});
 
-  const ProductItem({
-    super.key,
-    required this.title,
-    required this.imageUrl,
-    required this.id,
-    required this.price,
-  });
+  void navigateToDetailsScreen(BuildContext context, String id) {
+    Navigator.of(context).pushNamed(
+      ProductDetailsScreen.routeName,
+      arguments: id,
+    );
+  }
 
-  String get priceTag => '\$${price.toStringAsFixed(2)}';
+  void onFavourite(BuildContext context, String id) {
+    Provider.of<Product>(context, listen: false).toggleFavourite();
+    // context.read<Product>().toggleFavourite();
+  }
+
+  void onAddToCart(BuildContext context, Product product) {
+    Provider.of<Cart>(context, listen: false).addItem(
+      itemId: product.id,
+      title: product.title,
+      price: product.price,
+    );
+
+    Fluttertoast.showToast(
+      msg: '${product.title} added to cart.',
+      backgroundColor: Colors.black54,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    final product = Provider.of<Product>(context);
+    final priceTag = '\$${product.price.toStringAsFixed(2)}';
+
     return GridTile(
       footer: SizedBox(
         height: 50,
         child: GridTileBar(
           backgroundColor: Colors.black38,
           leading: IconButton(
-            icon: const Icon(Icons.favorite),
-            onPressed: () {},
+            icon: Icon(
+              Icons.favorite,
+              color: product.isFavourite ? Colors.red : Colors.white60,
+            ),
+            onPressed: () => onFavourite(context, product.id),
           ),
           trailing: IconButton(
             icon: const Icon(Icons.shopping_cart),
-            onPressed: () {},
+            onPressed: () => onAddToCart(context, product),
           ),
-          title: Text(title),
+          title: Text(product.title),
           subtitle: Text(
             priceTag,
             style: const TextStyle(color: Colors.white),
           ),
         ),
       ),
-      child: Image.network(
-        imageUrl,
-        fit: BoxFit.cover,
+      child: GestureDetector(
+        onTap: () => navigateToDetailsScreen(context, product.id),
+        child: Image.network(
+          product.imageUrl,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }
