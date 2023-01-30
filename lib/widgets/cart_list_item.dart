@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/cart_provider.dart';
+import '../providers/products_provider.dart';
 
 class CartListItem extends StatelessWidget {
   final String id;
@@ -37,6 +38,8 @@ class CartListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final imageUrl = Provider.of<Products>(context).getById(id).imageUrl;
+
     return Dismissible(
       key: ValueKey(id),
       confirmDismiss: (direction) async {
@@ -78,21 +81,14 @@ class CartListItem extends StatelessWidget {
           horizontal: 0,
         ),
         child: ListTile(
-          leading: Container(
-            width: 75,
-            height: 40,
-            padding: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.secondary,
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-            ),
-            child: FittedBox(
-              child: Text(
-                totalPriceLabel,
-                style: Theme.of(context).textTheme.headline6?.copyWith(
-                      fontSize: 17,
-                      color: Colors.white,
-                    ),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+          leading: ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            child: SizedBox(
+              width: 60,
+              child: Image.network(
+                imageUrl,
+                fit: BoxFit.cover,
               ),
             ),
           ),
