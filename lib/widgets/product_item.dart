@@ -39,34 +39,37 @@ class ProductItem extends StatelessWidget {
     final product = Provider.of<Product>(context);
     final priceTag = '\$${product.price.toStringAsFixed(2)}';
 
-    return GridTile(
-      footer: SizedBox(
-        height: 50,
-        child: GridTileBar(
-          backgroundColor: Colors.black38,
-          leading: IconButton(
-            icon: Icon(
-              Icons.favorite,
-              color: product.isFavourite ? Colors.red : Colors.white60,
+    return ClipRRect(
+      borderRadius: const BorderRadius.all(Radius.circular(10)),
+      child: GridTile(
+        footer: SizedBox(
+          height: 50,
+          child: GridTileBar(
+            backgroundColor: Colors.black38,
+            leading: IconButton(
+              icon: Icon(
+                Icons.favorite,
+                color: product.isFavourite ? Colors.red : Colors.white60,
+              ),
+              onPressed: () => onFavourite(context, product.id),
             ),
-            onPressed: () => onFavourite(context, product.id),
-          ),
-          trailing: IconButton(
-            icon: const Icon(Icons.shopping_cart),
-            onPressed: () => onAddToCart(context, product),
-          ),
-          title: Text(product.title),
-          subtitle: Text(
-            priceTag,
-            style: const TextStyle(color: Colors.white),
+            trailing: IconButton(
+              icon: const Icon(Icons.shopping_cart),
+              onPressed: () => onAddToCart(context, product),
+            ),
+            title: Text(product.title),
+            subtitle: Text(
+              priceTag,
+              style: const TextStyle(color: Colors.white),
+            ),
           ),
         ),
-      ),
-      child: GestureDetector(
-        onTap: () => navigateToDetailsScreen(context, product.id),
-        child: Image.network(
-          product.imageUrl,
-          fit: BoxFit.cover,
+        child: GestureDetector(
+          onTap: () => navigateToDetailsScreen(context, product.id),
+          child: Image.network(
+            product.imageUrl,
+            fit: BoxFit.cover,
+          ),
         ),
       ),
     );
