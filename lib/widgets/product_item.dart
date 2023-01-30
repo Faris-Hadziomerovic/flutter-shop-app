@@ -16,9 +16,16 @@ class ProductItem extends StatelessWidget {
     );
   }
 
-  void onFavourite(BuildContext context, String id) {
-    Provider.of<Product>(context, listen: false).toggleFavourite();
-    // context.read<Product>().toggleFavourite();
+  void onFavourite(BuildContext context, Product product) {
+    final isFavourite = product.toggleFavourite();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(isFavourite
+            ? '${product.title} added to favourites.'
+            : '${product.title} removed from favourites.'),
+      ),
+    );
   }
 
   void onAddToCart(BuildContext context, Product product) {
@@ -51,7 +58,7 @@ class ProductItem extends StatelessWidget {
                 Icons.favorite,
                 color: product.isFavourite ? Colors.red : Colors.white60,
               ),
-              onPressed: () => onFavourite(context, product.id),
+              onPressed: () => onFavourite(context, product),
             ),
             trailing: IconButton(
               icon: const Icon(Icons.shopping_cart),
