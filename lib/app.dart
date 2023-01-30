@@ -28,6 +28,15 @@ class App extends StatelessWidget {
             primary: Colors.red,
             secondary: Colors.amber,
           ),
+          snackBarTheme: const SnackBarThemeData(
+            elevation: 0,
+            backgroundColor: Colors.black54,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(10),
+              ),
+            ),
+          ),
           textTheme: const TextTheme(),
           cardTheme: const CardTheme(
             elevation: 5,

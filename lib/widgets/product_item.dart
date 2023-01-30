@@ -21,6 +21,7 @@ class ProductItem extends StatelessWidget {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
+        duration: const Duration(milliseconds: 2000),
         content: Text(isFavourite
             ? '${product.title} added to favourites.'
             : '${product.title} removed from favourites.'),
