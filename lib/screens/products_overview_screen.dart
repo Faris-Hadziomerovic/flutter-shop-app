@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../enums/filter_options.dart';
 import '../providers/cart_provider.dart';
 import '../screens/cart_screen.dart';
-import '../widgets/app_drawer.dart';
+import '../widgets/drawers/app_drawer.dart';
 import '../widgets/notifications_badge.dart';
 import '../widgets/products_grid.dart';
 
@@ -73,7 +73,7 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
           ),
         ],
       ),
-      drawer: const AppDrawer(),
+      drawer: const AppDrawer(currentRoute: ProductsOverviewScreen.routeName),
       body: ProductsGrid(filterOptions: _filterOptions),
     );
   }

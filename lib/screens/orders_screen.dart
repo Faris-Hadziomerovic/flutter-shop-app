@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/app_drawer.dart';
+import '../widgets/drawers/app_drawer.dart';
 import '../widgets/orders_list_view.dart';
 
 class OrdersScreen extends StatelessWidget {
@@ -14,7 +14,7 @@ class OrdersScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Orders'),
       ),
-      drawer: const AppDrawer(),
+      drawer: const AppDrawer(currentRoute: routeName),
       body: const OrdersList(),
     );
   }
