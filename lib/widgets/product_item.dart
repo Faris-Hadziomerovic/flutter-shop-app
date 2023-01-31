@@ -19,13 +19,11 @@ class ProductItem extends StatelessWidget {
   void onFavourite(BuildContext context, Product product) {
     final isFavourite = product.toggleFavourite();
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        duration: const Duration(milliseconds: 2000),
-        content: Text(isFavourite
-            ? '${product.title} added to favourites.'
-            : '${product.title} removed from favourites.'),
-      ),
+    Fluttertoast.showToast(
+      backgroundColor: Colors.black54,
+      msg: isFavourite
+          ? '${product.title} added to favourites.'
+          : '${product.title} removed from favourites.',
     );
   }
 
@@ -36,10 +34,36 @@ class ProductItem extends StatelessWidget {
       price: product.price,
     );
 
-    Fluttertoast.showToast(
-      msg: '${product.title} added to cart.',
-      backgroundColor: Colors.black54,
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(milliseconds: 2000),
+        content: Text('${product.title} added to cart.'),
+        action: SnackBarAction(
+          label: 'UNDO',
+          onPressed: () => onUndoAddToCart(context, product),
+        ),
+      ),
     );
+  }
+
+  void onUndoAddToCart(BuildContext context, Product product) {
+    Provider.of<Cart>(context, listen: false).removeSingleItem(
+      productId: product.id,
+    );
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(milliseconds: 2000),
+        content: Text('${product.title} removed from cart.'),
+      ),
+    );
+
+    // Fluttertoast.showToast(
+    //   msg: '${product.title} removed from cart.',
+    //   backgroundColor: Colors.black54,
+    // );
   }
 
   @override
