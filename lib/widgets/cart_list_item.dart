@@ -28,8 +28,8 @@ class CartListItem extends StatelessWidget {
     return '\$${price.toStringAsFixed(2)}';
   }
 
-  void onDecreaseCartItemQuantity(BuildContext context) {
-    Provider.of<Cart>(context, listen: false).decreaseItemQuantity(productId: id);
+  void onRemoveSingleItem(BuildContext context) {
+    Provider.of<Cart>(context, listen: false).removeSingleItem(productId: id);
   }
 
   void onRemoveCartItemCompletely(BuildContext context) {
@@ -44,9 +44,26 @@ class CartListItem extends StatelessWidget {
       key: ValueKey(id),
       confirmDismiss: (direction) async {
         if (direction == DismissDirection.startToEnd || quantity == 1) {
-          return true;
+          return showDialog(
+              context: context,
+              builder: ((ctx) {
+                return AlertDialog(
+                  title: const Text('Remove item'),
+                  content: const Text('Do you want to completely remove this item from the cart?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.of(ctx).pop(true),
+                      child: const Text('Yes'),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.of(ctx).pop(false),
+                      child: const Text('No'),
+                    ),
+                  ],
+                );
+              }));
         } else {
-          onDecreaseCartItemQuantity(context);
+          onRemoveSingleItem(context);
           return false;
         }
       },
