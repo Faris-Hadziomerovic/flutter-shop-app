@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/widgets/drawers/app_drawer.dart';
+
+import '../helpers/generic_toast_messages.dart';
+import '../widgets/drawers/app_drawer.dart';
+import '../widgets/user-products/user_products_list_view.dart';
 
 class UserProductsScreen extends StatelessWidget {
   static const routeName = '/user-products';
 
   const UserProductsScreen({super.key});
+
+  void onSave(BuildContext context) {
+    HelperToast.showNotImplementedToast();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -12,14 +19,17 @@ class UserProductsScreen extends StatelessWidget {
       drawer: const AppDrawer(currentRoute: routeName),
       appBar: AppBar(
         title: const Text('User Products'),
-        actions: const [
-          IconButton(
-            onPressed: null,
-            icon: Icon(Icons.save),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: IconButton(
+              onPressed: () => onSave(context),
+              icon: const Icon(Icons.save),
+            ),
           ),
         ],
       ),
-      body: Container(),
+      body: const UserProductsListView(),
     );
   }
 }

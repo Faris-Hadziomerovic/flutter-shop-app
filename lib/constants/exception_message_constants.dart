@@ -3,4 +3,5 @@ class ExceptionMessageConstants {
       "A request has been made to remove more items than available are in the cart!";
   static const cartItemToRemoveDoesNotExist =
       "A request has been made to remove an item that doesn't exist!";
+  static const notImplemented = "Feature has not been not implemented!";
 }

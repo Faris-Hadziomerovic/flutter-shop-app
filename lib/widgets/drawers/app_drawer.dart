@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../helpers/generic_toast_messages.dart';
 import '../../screens/cart_screen.dart';
 import '../../screens/orders_screen.dart';
 import '../../screens/products_overview_screen.dart';
@@ -39,11 +39,7 @@ class AppDrawer extends StatelessWidget {
   }
 
   void navigateToSettings(BuildContext context) {
-    Fluttertoast.showToast(
-      msg: 'Settings feature is not yet implemented!',
-      backgroundColor: Colors.black54,
-      fontSize: 18,
-    );
+    HelperToast.showNotImplementedToast();
     // Navigator.of(context).pushReplacementNamed(SettingsScreen.routeName);
   }
 
