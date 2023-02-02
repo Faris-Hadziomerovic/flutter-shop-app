@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/cart_provider.dart';
+import '../../providers/cart_provider.dart';
 import './cart_list_item.dart';
 
 class CartListView extends StatelessWidget {
@@ -25,7 +25,7 @@ class CartListView extends StatelessWidget {
                 child: Text(
                   'The cart is currently empty, go out there and add something 😊',
                   textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.headline6,
+                  style: Theme.of(context).textTheme.titleLarge,
                 ),
               ),
             )

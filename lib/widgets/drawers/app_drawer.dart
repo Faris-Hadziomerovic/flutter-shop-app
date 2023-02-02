@@ -1,12 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
-import '../screens/cart_screen.dart';
-import '../screens/orders_screen.dart';
-import '../screens/products_overview_screen.dart';
+import '../../helpers/generic_toast_messages.dart';
+import '../../screens/cart_screen.dart';
+import '../../screens/orders_screen.dart';
+import '../../screens/products_overview_screen.dart';
+import '../../screens/user_products_screen.dart';
 
 class AppDrawer extends StatelessWidget {
-  const AppDrawer({super.key});
+  final String currentRoute;
+
+  const AppDrawer({
+    super.key,
+    required this.currentRoute,
+  });
+
+  bool canNavigateToRoute(String route) {
+    return currentRoute != route;
+  }
+
+  void closeDrawer(BuildContext context) {
+    Scaffold.of(context).closeDrawer();
+  }
 
   void navigateToShop(BuildContext context) {
     Navigator.of(context).pushReplacementNamed(ProductsOverviewScreen.routeName);
@@ -20,12 +34,12 @@ class AppDrawer extends StatelessWidget {
     Navigator.of(context).pushNamed(CartScreen.routeName);
   }
 
+  void navigateToUserProducts(BuildContext context) {
+    Navigator.of(context).pushReplacementNamed(UserProductsScreen.routeName);
+  }
+
   void navigateToSettings(BuildContext context) {
-    Fluttertoast.showToast(
-      msg: 'Settings feature is not yet implemented!',
-      backgroundColor: Colors.black54,
-      fontSize: 18,
-    );
+    HelperToast.showNotImplementedToast();
     // Navigator.of(context).pushReplacementNamed(SettingsScreen.routeName);
   }
 
@@ -68,19 +82,33 @@ class AppDrawer extends StatelessWidget {
           listTileWithBorder(
             leading: const Icon(Icons.shopping_bag_outlined),
             title: const Text('Shop'),
-            onTap: () => navigateToShop(context),
+            onTap: () => canNavigateToRoute(ProductsOverviewScreen.routeName)
+                ? navigateToShop(context)
+                : closeDrawer(context),
+            showBottomBorder: true,
+          ),
+          listTileWithBorder(
+            leading: const Icon(Icons.format_list_bulleted_rounded),
+            title: const Text('My products'),
+            onTap: () => canNavigateToRoute(UserProductsScreen.routeName)
+                ? navigateToUserProducts(context)
+                : closeDrawer(context),
             showBottomBorder: true,
           ),
           listTileWithBorder(
             leading: const Icon(Icons.shopping_cart_outlined),
             title: const Text('Cart'),
-            onTap: () => navigateToCart(context),
+            onTap: () => canNavigateToRoute(CartScreen.routeName)
+                ? navigateToCart(context)
+                : closeDrawer(context),
             showBottomBorder: true,
           ),
           listTileWithBorder(
             leading: const Icon(Icons.price_check_outlined),
             title: const Text('Orders'),
-            onTap: () => navigateToOrders(context),
+            onTap: () => canNavigateToRoute(OrdersScreen.routeName)
+                ? navigateToOrders(context)
+                : closeDrawer(context),
             showBottomBorder: true,
           ),
           const Spacer(),

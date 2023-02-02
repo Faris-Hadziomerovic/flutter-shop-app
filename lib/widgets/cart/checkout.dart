@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../providers/cart_provider.dart';
-import '../providers/orders_provider.dart';
-import '../screens/orders_screen.dart';
+import '../../providers/cart_provider.dart';
+import '../../providers/orders_provider.dart';
+import '../../screens/orders_screen.dart';
 
 class Checkout extends StatelessWidget {
   final Color? backgroundColor;
@@ -54,7 +54,7 @@ class Checkout extends StatelessWidget {
     final totalPriceLabel = '\$ ${totalPrice.toStringAsFixed(2)}';
 
     final textStyle =
-        Theme.of(context).textTheme.headline6?.copyWith(color: textColor ?? Colors.black);
+        Theme.of(context).textTheme.titleLarge?.copyWith(color: textColor ?? Colors.black);
 
     return Container(
       decoration: BoxDecoration(
@@ -114,7 +114,7 @@ class Checkout extends StatelessWidget {
                 onPressed: canCheckout ? () => onCheckout(context) : null,
                 child: Text(
                   'Checkout',
-                  style: Theme.of(context).textTheme.headline6?.copyWith(
+                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
                         color: Theme.of(context).colorScheme.onPrimary,
                       ),
                 ),

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/cart_provider.dart';
+import '../../providers/cart_provider.dart';
+import '../../providers/products_provider.dart';
 
 class CartListItem extends StatelessWidget {
   final String id;
@@ -27,8 +28,8 @@ class CartListItem extends StatelessWidget {
     return '\$${price.toStringAsFixed(2)}';
   }
 
-  void onDecreaseCartItemQuantity(BuildContext context) {
-    Provider.of<Cart>(context, listen: false).decreaseItemQuantity(productId: id);
+  void onRemoveSingleItem(BuildContext context) {
+    Provider.of<Cart>(context, listen: false).removeSingleItem(productId: id);
   }
 
   void onRemoveCartItemCompletely(BuildContext context) {
@@ -37,13 +38,32 @@ class CartListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final imageUrl = Provider.of<Products>(context).getById(id).imageUrl;
+
     return Dismissible(
       key: ValueKey(id),
       confirmDismiss: (direction) async {
         if (direction == DismissDirection.startToEnd || quantity == 1) {
-          return true;
+          return showDialog(
+              context: context,
+              builder: ((ctx) {
+                return AlertDialog(
+                  title: const Text('Remove item'),
+                  content: const Text('Do you want to completely remove this item from the cart?'),
+                  actions: [
+                    TextButton(
+                      onPressed: () => Navigator.of(ctx).pop(true),
+                      child: const Text('Yes'),
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.of(ctx).pop(false),
+                      child: const Text('No'),
+                    ),
+                  ],
+                );
+              }));
         } else {
-          onDecreaseCartItemQuantity(context);
+          onRemoveSingleItem(context);
           return false;
         }
       },
@@ -57,7 +77,7 @@ class CartListItem extends StatelessWidget {
           child: Icon(
             Icons.delete,
             size: 35,
-            color: Theme.of(context).errorColor,
+            color: Theme.of(context).colorScheme.error,
           ),
         ),
       ),
@@ -68,7 +88,7 @@ class CartListItem extends StatelessWidget {
           child: Icon(
             Icons.exposure_minus_1_rounded,
             size: 35,
-            color: Theme.of(context).errorColor,
+            color: Theme.of(context).colorScheme.error,
           ),
         ),
       ),
@@ -78,27 +98,20 @@ class CartListItem extends StatelessWidget {
           horizontal: 0,
         ),
         child: ListTile(
-          leading: Container(
-            width: 75,
-            height: 40,
-            padding: const EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.secondary,
-              borderRadius: const BorderRadius.all(Radius.circular(10)),
-            ),
-            child: FittedBox(
-              child: Text(
-                totalPriceLabel,
-                style: Theme.of(context).textTheme.headline6?.copyWith(
-                      fontSize: 17,
-                      color: Colors.white,
-                    ),
+          contentPadding: const EdgeInsets.symmetric(horizontal: 10),
+          leading: ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+            child: SizedBox(
+              width: 60,
+              child: Image.network(
+                imageUrl,
+                fit: BoxFit.cover,
               ),
             ),
           ),
           title: Text(
             title,
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           subtitle: Text("$quantity × $priceLabel"),
         ),

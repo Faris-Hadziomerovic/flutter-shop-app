@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/cart_list_view.dart';
-import '../widgets/checkout.dart';
+import '../widgets/cart/cart_list_view.dart';
+import '../widgets/cart/checkout.dart';
 
 class CartScreen extends StatelessWidget {
   static const routeName = '/cart';

@@ -86,9 +86,16 @@ class Cart with ChangeNotifier {
     notifyListeners();
   }
 
+  void removeSingleItem({required String productId}) {
+    decreaseItemQuantity(
+      productId: productId,
+      quantity: 1,
+    );
+  }
+
   void decreaseItemQuantity({
     required String productId,
-    int quantity = 1,
+    required int quantity,
   }) {
     if (productId.isEmpty || quantity < 1) {
       throw RemoveCartItemException();

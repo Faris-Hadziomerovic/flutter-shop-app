@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:collection/collection.dart';
 
+import '../exceptions/item_does_not_exist_exception.dart';
 import './product.dart';
 
 class Products with ChangeNotifier {
@@ -45,8 +46,29 @@ class Products with ChangeNotifier {
     return products.firstWhere((product) => product.id == id);
   }
 
-  void add(Product product) {
-    _products.add(product);
+  void update({required String id, required Product updatedProduct}) {
+    var index = _products.indexWhere((product) => product.id == id);
+
+    if (index == -1) throw ItemDoesNotExistException();
+
+    _products[index] = Product(
+      id: id,
+      title: updatedProduct.title,
+      description: updatedProduct.description,
+      imageUrl: updatedProduct.imageUrl,
+      price: updatedProduct.price,
+    );
+
+    notifyListeners();
+  }
+
+  void add(Product product, {bool insertAsFirst = false}) {
+    if (insertAsFirst) {
+      _products.insert(0, product);
+    } else {
+      _products.add(product);
+    }
+
     notifyListeners();
   }
 
