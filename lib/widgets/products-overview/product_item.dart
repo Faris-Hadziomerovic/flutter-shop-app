@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../providers/cart_provider.dart';
-import '../providers/product.dart';
-import '../screens/product_details_screen.dart';
+import '../../providers/cart_provider.dart';
+import '../../providers/product.dart';
+import '../../screens/product_details_screen.dart';
 
 class ProductItem extends StatelessWidget {
   const ProductItem({super.key});

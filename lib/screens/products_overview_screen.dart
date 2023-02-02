@@ -5,11 +5,11 @@ import '../enums/filter_options.dart';
 import '../providers/cart_provider.dart';
 import '../screens/cart_screen.dart';
 import '../widgets/drawers/app_drawer.dart';
-import '../widgets/notifications_badge.dart';
-import '../widgets/products_grid.dart';
+import '../widgets/products-overview/notifications_badge.dart';
+import '../widgets/products-overview/products_grid.dart';
 
 class ProductsOverviewScreen extends StatefulWidget {
-  static const routeName = '/products-overview-screen';
+  static const routeName = '/products-overview';
 
   final String title;
 

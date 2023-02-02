@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../providers/cart_provider.dart';
-import '../providers/orders_provider.dart';
-import '../screens/orders_screen.dart';
+import '../../providers/cart_provider.dart';
+import '../../providers/orders_provider.dart';
+import '../../screens/orders_screen.dart';
 
 class Checkout extends StatelessWidget {
   final Color? backgroundColor;

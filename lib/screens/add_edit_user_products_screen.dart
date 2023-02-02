@@ -5,7 +5,7 @@ import '../providers/products_provider.dart';
 import '../widgets/add-edit-user-products/product_properties_form.dart';
 
 class AddEditUserProductsScreen extends StatelessWidget {
-  static const routeName = '/add-edit-product';
+  static const routeName = '/add-edit-user-product';
 
   const AddEditUserProductsScreen({super.key});
 

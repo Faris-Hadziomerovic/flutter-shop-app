@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/drawers/app_drawer.dart';
-import '../widgets/orders_list_view.dart';
+import '../widgets/orders/orders_list_view.dart';
 
 class OrdersScreen extends StatelessWidget {
   static const String routeName = '/orders';
