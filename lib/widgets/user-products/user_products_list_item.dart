@@ -18,7 +18,7 @@ class UserProductsListItem extends StatelessWidget {
 
   onEdit(BuildContext context) {
     Navigator.of(context).pushNamed(
-      AddEditUserProductsScreen.editProductRouteName,
+      AddEditUserProductsScreen.routeName,
       arguments: product.id,
     );
   }

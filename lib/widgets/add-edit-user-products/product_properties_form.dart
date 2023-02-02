@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../helpers/input_helper.dart';
 import '../../helpers/validator.dart';
 import '../../models/mutable_product.dart';
 import '../../providers/product.dart';
+import '../../providers/products_provider.dart';
 
 class ProductPropertiesForm extends StatefulWidget {
   final Product? product;
@@ -15,18 +18,22 @@ class ProductPropertiesForm extends StatefulWidget {
 }
 
 class _ProductPropertiesFormState extends State<ProductPropertiesForm> {
+  late final MutableProduct _product;
+  final _form = GlobalKey<FormState>();
   final _imageController = TextEditingController();
   final _imageFocusNode = FocusNode();
-  final _form = GlobalKey<FormState>();
-  late final MutableProduct _product;
+
+  bool get _isEditMode => widget.product != null;
 
   @override
   void initState() {
     super.initState();
-    _product = widget.product == null
-        ? MutableProduct(id: DateTime.now().millisecondsSinceEpoch.toString())
-        : MutableProduct.fromProduct(product: widget.product as Product);
-    _imageController.text = widget.product?.imageUrl ?? '';
+
+    _product = _isEditMode
+        ? MutableProduct.fromProduct(product: widget.product as Product)
+        : MutableProduct(id: DateTime.now().millisecondsSinceEpoch.toString());
+
+    _imageController.text = _product.imageUrl ?? '';
     _imageFocusNode.addListener(_updateImageUrl);
   }
 
@@ -46,12 +53,34 @@ class _ProductPropertiesFormState extends State<ProductPropertiesForm> {
   }
 
   void _saveForm() {
-    _updateImageUrl();
-
     final formIsValid = _form.currentState?.validate() ?? false;
 
     if (formIsValid) {
       _form.currentState?.save();
+
+      if (_isEditMode) {
+        Provider.of<Products>(context, listen: false).update(
+          id: _product.id,
+          updatedProduct: _product.toProduct(),
+        );
+
+        Fluttertoast.showToast(
+          msg: '${_product.title} has been updated.',
+          backgroundColor: Colors.black54,
+        );
+      } else {
+        Provider.of<Products>(context, listen: false).add(
+          _product.toProduct(),
+          insertAsFirst: true,
+        );
+
+        Fluttertoast.showToast(
+          msg: '${_product.title} has been added to your products.',
+          backgroundColor: Colors.black54,
+        );
+      }
+
+      Navigator.pop(context);
     }
   }
 
@@ -145,16 +174,16 @@ class _ProductPropertiesFormState extends State<ProductPropertiesForm> {
                         labelText: 'Image URL',
                       ),
                       onSaved: (newImageUrl) => _product.imageUrl = newImageUrl,
-                      onFieldSubmitted: (_) => _saveForm(),
+                      onFieldSubmitted: (_) => _updateImageUrl(),
                       validator: Validator.validateImageUrl,
                     ),
                   ),
                 ],
               ),
-              Container(
-                width: 150,
+              const SizedBox(height: distanceBetweenFields),
+              SizedBox(
+                width: double.infinity,
                 height: 60,
-                margin: const EdgeInsets.all(25),
                 child: ElevatedButton.icon(
                   onPressed: _saveForm,
                   icon: const Icon(Icons.check),

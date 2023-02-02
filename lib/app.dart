@@ -30,6 +30,16 @@ class App extends StatelessWidget {
             primary: Colors.red,
             secondary: Colors.amber,
           ),
+          textTheme: const TextTheme(),
+          floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            backgroundColor: Colors.red,
+            splashColor: Colors.amber,
+            foregroundColor: Colors.white,
+            iconSize: 30,
+            extendedTextStyle: TextStyle(
+              fontSize: 17,
+            ),
+          ),
           snackBarTheme: const SnackBarThemeData(
             elevation: 0,
             backgroundColor: Colors.black54,
@@ -39,7 +49,6 @@ class App extends StatelessWidget {
               ),
             ),
           ),
-          textTheme: const TextTheme(),
           cardTheme: const CardTheme(
             elevation: 5,
             shape: RoundedRectangleBorder(
@@ -56,9 +65,7 @@ class App extends StatelessWidget {
           CartScreen.routeName: (_) => const CartScreen(),
           OrdersScreen.routeName: (_) => const OrdersScreen(),
           UserProductsScreen.routeName: (_) => const UserProductsScreen(),
-          AddEditUserProductsScreen.newProductRouteName: (_) => const AddEditUserProductsScreen(),
-          AddEditUserProductsScreen.editProductRouteName: (_) =>
-              const AddEditUserProductsScreen(editExistingProduct: true),
+          AddEditUserProductsScreen.routeName: (_) => const AddEditUserProductsScreen(),
           // ___Screen.routeName: (_) => const ___Screen(),
         },
       ),

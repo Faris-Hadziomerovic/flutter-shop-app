@@ -5,15 +5,9 @@ import '../providers/products_provider.dart';
 import '../widgets/add-edit-user-products/product_properties_form.dart';
 
 class AddEditUserProductsScreen extends StatelessWidget {
-  static const newProductRouteName = '/new-product';
-  static const editProductRouteName = '/edit-product';
+  static const routeName = '/add-edit-product';
 
-  final bool editExistingProduct;
-
-  const AddEditUserProductsScreen({
-    super.key,
-    this.editExistingProduct = false,
-  });
+  const AddEditUserProductsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +16,7 @@ class AddEditUserProductsScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(editExistingProduct ? 'Edit Product' : 'New Product'),
+        title: Text(productId != null ? 'Edit Product' : 'New Product'),
       ),
       body: ProductPropertiesForm(product: product),
     );

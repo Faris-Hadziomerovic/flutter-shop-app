@@ -10,7 +10,7 @@ class UserProductsScreen extends StatelessWidget {
   const UserProductsScreen({super.key});
 
   void onAddNewProduct(BuildContext context) {
-    Navigator.of(context).pushNamed(AddEditUserProductsScreen.newProductRouteName);
+    Navigator.of(context).pushNamed(AddEditUserProductsScreen.routeName);
   }
 
   @override
@@ -28,6 +28,13 @@ class UserProductsScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        backgroundColor: Theme.of(context).colorScheme.primary,
+        splashColor: Theme.of(context).colorScheme.secondary,
+        onPressed: () => onAddNewProduct(context),
+        icon: const Icon(Icons.add_rounded),
+        label: const Text('Add new product'),
       ),
       body: const UserProductsListView(),
     );
