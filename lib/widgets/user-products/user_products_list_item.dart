@@ -44,7 +44,7 @@ class UserProductsListItem extends StatelessWidget {
         ),
         title: Text(
           product.title,
-          style: Theme.of(context).textTheme.headline6,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
         subtitle: Text(
           product.description,

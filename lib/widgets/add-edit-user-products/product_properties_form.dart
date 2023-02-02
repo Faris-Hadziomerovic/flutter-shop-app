@@ -189,7 +189,7 @@ class _ProductPropertiesFormState extends State<ProductPropertiesForm> {
                   icon: const Icon(Icons.check),
                   label: Text(
                     'Save',
-                    style: Theme.of(context).textTheme.headline6?.copyWith(
+                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
                           color: Theme.of(context).colorScheme.onPrimary,
                         ),
                   ),

@@ -46,7 +46,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 product.title,
                 textAlign: TextAlign.left,
                 // change the style further
-                style: Theme.of(context).textTheme.headline5?.copyWith(),
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(),
               ),
             ),
             const SizedBox(height: 5),
@@ -56,7 +56,7 @@ class ProductDetailsScreen extends StatelessWidget {
               child: Text(
                 '\$${product.price.toStringAsFixed(2)}',
                 textAlign: TextAlign.left,
-                style: Theme.of(context).textTheme.headline5?.copyWith(
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                       color: Colors.grey.shade600,
                     ),
               ),
@@ -69,7 +69,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 product.description,
                 textAlign: TextAlign.left,
                 // change the style further
-                style: Theme.of(context).textTheme.bodyText2?.copyWith(),
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(),
               ),
             ),
           ],

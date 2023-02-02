@@ -77,7 +77,7 @@ class CartListItem extends StatelessWidget {
           child: Icon(
             Icons.delete,
             size: 35,
-            color: Theme.of(context).errorColor,
+            color: Theme.of(context).colorScheme.error,
           ),
         ),
       ),
@@ -88,7 +88,7 @@ class CartListItem extends StatelessWidget {
           child: Icon(
             Icons.exposure_minus_1_rounded,
             size: 35,
-            color: Theme.of(context).errorColor,
+            color: Theme.of(context).colorScheme.error,
           ),
         ),
       ),
@@ -111,7 +111,7 @@ class CartListItem extends StatelessWidget {
           ),
           title: Text(
             title,
-            style: Theme.of(context).textTheme.headline6,
+            style: Theme.of(context).textTheme.titleLarge,
           ),
           subtitle: Text("$quantity × $priceLabel"),
         ),
