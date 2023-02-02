@@ -101,6 +101,22 @@ class ProductItem extends StatelessWidget {
           child: Image.network(
             product.imageUrl,
             fit: BoxFit.cover,
+            loadingBuilder: (context, child, loadingProgress) {
+              if (loadingProgress == null) {
+                return child;
+              } else {
+                return Container(
+                  color: Colors.black12,
+                  child: const Center(
+                    child: SizedBox(
+                      height: 30,
+                      width: 30,
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
+                );
+              }
+            },
           ),
         ),
       ),

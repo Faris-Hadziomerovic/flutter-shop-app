@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-import '../helpers/generic_toast_messages.dart';
 import '../widgets/drawers/app_drawer.dart';
 import '../widgets/user-products/user_products_list_view.dart';
+import '../screens/add_edit_user_products_screen.dart';
 
 class UserProductsScreen extends StatelessWidget {
   static const routeName = '/user-products';
 
   const UserProductsScreen({super.key});
 
-  void onSave(BuildContext context) {
-    HelperToast.showNotImplementedToast();
+  void onAddNewProduct(BuildContext context) {
+    Navigator.of(context).pushNamed(AddEditUserProductsScreen.newProductRouteName);
   }
 
   @override
@@ -23,8 +23,8 @@ class UserProductsScreen extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: IconButton(
-              onPressed: () => onSave(context),
-              icon: const Icon(Icons.save),
+              onPressed: () => onAddNewProduct(context),
+              icon: const Icon(Icons.add_rounded),
             ),
           ),
         ],

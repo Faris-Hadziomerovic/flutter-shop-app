@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../helpers/generic_toast_messages.dart';
 import '../../providers/product.dart';
+import '../../screens/add_edit_user_products_screen.dart';
 
 class UserProductsListItem extends StatelessWidget {
   final Product product;
@@ -16,7 +17,10 @@ class UserProductsListItem extends StatelessWidget {
   }
 
   onEdit(BuildContext context) {
-    HelperToast.showNotImplementedToast();
+    Navigator.of(context).pushNamed(
+      AddEditUserProductsScreen.editProductRouteName,
+      arguments: product.id,
+    );
   }
 
   @override

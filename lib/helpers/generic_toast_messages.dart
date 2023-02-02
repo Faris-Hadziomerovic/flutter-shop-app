@@ -10,4 +10,11 @@ class HelperToast {
       backgroundColor: Colors.black54,
     );
   }
+
+  static void showStringToNumberParsingErrorToast() {
+    Fluttertoast.showToast(
+      msg: ExceptionMessageConstants.failedParseToNumber,
+      backgroundColor: Colors.black54,
+    );
+  }
 }
