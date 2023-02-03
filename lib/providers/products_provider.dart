@@ -1,16 +1,19 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:collection/collection.dart';
 import 'package:http/http.dart' as http;
-import 'package:shop_app/exceptions/add_product_exception.dart';
+import 'package:shop_app/exceptions/fetch_products_exception.dart';
 
+import '../constants/api_constants.dart';
+import '../constants/endpoints.dart';
+import '../exceptions/add_product_exception.dart';
 import '../exceptions/item_does_not_exist_exception.dart';
+import '../helpers/http_helper.dart';
 import './product.dart';
 
 class Products with ChangeNotifier {
-  final List<Product> _products = [
+  final List<Product> _localProducts = [
     Product(
       id: 'p1',
       title: 'Red Shirt',
@@ -43,20 +46,65 @@ class Products with ChangeNotifier {
     ),
   ];
 
-  List<Product> get products => [..._products];
+  List<Product> get localProducts => [..._localProducts];
 
-  List<Product> get favouriteProducts => [..._products.where((product) => product.isFavourite)];
+  List<Product> get favouriteProducts =>
+      [..._localProducts.where((product) => product.isFavourite)];
 
   Product getById(String id) {
-    return products.firstWhere((product) => product.id == id);
+    return localProducts.firstWhere((product) => product.id == id);
+  }
+
+  Future<void> fetchAndSet() async {
+    final url = HttpHelper.generateFirebaseURL(endpoint: Endpoints.products);
+
+    try {
+      final response = await http.get(url);
+
+      HttpHelper.throwIfNot200(response);
+
+      print(response.body);
+    } catch (error) {
+      throw FetchProductsException();
+    }
+  }
+
+  Future<void> add(Product product, {bool insertAsFirst = false}) async {
+    final url = HttpHelper.generateFirebaseURL(endpoint: Endpoints.products);
+
+    try {
+      final response = await http.post(url, body: jsonEncode(product.toJSON()));
+
+      HttpHelper.throwIfNot200(response);
+
+      final id = jsonDecode(response.body)[ApiConstants.firebaseGetResponseIdKey];
+
+      final newProduct = Product(
+        id: id,
+        title: product.title,
+        price: product.price,
+        description: product.description,
+        imageUrl: product.imageUrl,
+      );
+
+      if (insertAsFirst) {
+        _localProducts.insert(0, newProduct);
+      } else {
+        _localProducts.add(newProduct);
+      }
+
+      notifyListeners();
+    } catch (error) {
+      throw AddProductException();
+    }
   }
 
   void update({required String id, required Product updatedProduct}) {
-    var index = _products.indexWhere((product) => product.id == id);
+    var index = _localProducts.indexWhere((product) => product.id == id);
 
     if (index == -1) throw ItemDoesNotExistException();
 
-    _products[index] = Product(
+    _localProducts[index] = Product(
       id: id,
       title: updatedProduct.title,
       description: updatedProduct.description,
@@ -67,29 +115,8 @@ class Products with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> add(Product product, {bool insertAsFirst = false}) async {
-    final url = Uri.https(
-      'shop-app-115-default-rtdb.europe-west1.firebasedatabase.app',
-      '/products.json',
-    );
-
-    return http.post(url, body: jsonEncode(product.toJSON())).then((response) {
-      if (response.statusCode != 200) throw HttpException(response.body, uri: url);
-
-      if (insertAsFirst) {
-        _products.insert(0, product);
-      } else {
-        _products.add(product);
-      }
-
-      notifyListeners();
-    }).catchError((error) {
-      throw AddProductException();
-    });
-  }
-
   void toggleFavourite(String id) {
-    var product = _products.firstWhereOrNull((product) => product.id == id);
+    var product = _localProducts.firstWhereOrNull((product) => product.id == id);
 
     if (product != null) {
       product.isFavourite = !product.isFavourite;
@@ -98,13 +125,13 @@ class Products with ChangeNotifier {
   }
 
   void remove(Product product) {
-    if (_products.remove(product)) {
+    if (_localProducts.remove(product)) {
       notifyListeners();
     }
   }
 
   void removeById(String id) {
-    final product = _products.firstWhereOrNull((product) => product.id == id);
+    final product = _localProducts.firstWhereOrNull((product) => product.id == id);
 
     if (product != null) {
       remove(product);

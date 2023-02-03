@@ -1,4 +1,4 @@
-class ExceptionMessageConstants {
+class ExceptionMessages {
   static const notEnoughCartItemsToRemove =
       "A request has been made to remove more items than available are in the cart!";
   static const cartItemToRemoveDoesNotExist =

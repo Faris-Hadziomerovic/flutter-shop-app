@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-import '../constants/exception_message_constants.dart';
+import '../constants/exception_messages.dart';
 import '../exceptions/add_cart_item_exception.dart';
 import '../exceptions/item_does_not_exist_exception.dart';
 import '../exceptions/remove_cart_item_exception.dart';
@@ -103,7 +103,7 @@ class Cart with ChangeNotifier {
 
     if (!_cart.containsKey(productId)) {
       throw RemoveCartItemException(
-        message: ExceptionMessageConstants.cartItemToRemoveDoesNotExist,
+        message: ExceptionMessages.cartItemToRemoveDoesNotExist,
       );
     }
 
@@ -127,7 +127,7 @@ class Cart with ChangeNotifier {
 
     if (!_cart.containsKey(productId)) {
       throw RemoveCartItemException(
-        message: ExceptionMessageConstants.cartItemToRemoveDoesNotExist,
+        message: ExceptionMessages.cartItemToRemoveDoesNotExist,
       );
     }
 
