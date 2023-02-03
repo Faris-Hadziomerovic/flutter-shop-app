@@ -1,5 +1,10 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:collection/collection.dart';
+import 'package:http/http.dart' as http;
+import 'package:shop_app/exceptions/add_product_exception.dart';
 
 import '../exceptions/item_does_not_exist_exception.dart';
 import './product.dart';
@@ -62,14 +67,25 @@ class Products with ChangeNotifier {
     notifyListeners();
   }
 
-  void add(Product product, {bool insertAsFirst = false}) {
-    if (insertAsFirst) {
-      _products.insert(0, product);
-    } else {
-      _products.add(product);
-    }
+  Future<void> add(Product product, {bool insertAsFirst = false}) async {
+    final url = Uri.https(
+      'shop-app-115-default-rtdb.europe-west1.firebasedatabase.app',
+      '/products.json',
+    );
 
-    notifyListeners();
+    return http.post(url, body: jsonEncode(product.toJSON())).then((response) {
+      if (response.statusCode != 200) throw HttpException(response.body, uri: url);
+
+      if (insertAsFirst) {
+        _products.insert(0, product);
+      } else {
+        _products.add(product);
+      }
+
+      notifyListeners();
+    }).catchError((error) {
+      throw AddProductException();
+    });
   }
 
   void toggleFavourite(String id) {

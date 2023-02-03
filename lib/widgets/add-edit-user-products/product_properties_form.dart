@@ -18,6 +18,7 @@ class ProductPropertiesForm extends StatefulWidget {
 }
 
 class _ProductPropertiesFormState extends State<ProductPropertiesForm> {
+  bool _isLoading = false;
   late final MutableProduct _product;
   final _form = GlobalKey<FormState>();
   final _imageController = TextEditingController();
@@ -52,35 +53,66 @@ class _ProductPropertiesFormState extends State<ProductPropertiesForm> {
     }
   }
 
-  void _saveForm() {
+  Future<void> _saveForm() async {
     final formIsValid = _form.currentState?.validate() ?? false;
+    bool? retry = false;
 
     if (formIsValid) {
+      setState(() => _isLoading = true);
+
       _form.currentState?.save();
 
-      if (_isEditMode) {
-        Provider.of<Products>(context, listen: false).update(
-          id: _product.id,
-          updatedProduct: _product.toProduct(),
-        );
+      try {
+        if (_isEditMode) {
+          Provider.of<Products>(context, listen: false).update(
+            id: _product.id,
+            updatedProduct: _product.toProduct(),
+          );
 
-        Fluttertoast.showToast(
-          msg: '${_product.title} has been updated.',
-          backgroundColor: Colors.black54,
-        );
-      } else {
-        Provider.of<Products>(context, listen: false).add(
-          _product.toProduct(),
-          insertAsFirst: true,
-        );
+          Fluttertoast.showToast(
+            msg: '${_product.title} has been updated.',
+            backgroundColor: Colors.black54,
+          );
+        } else {
+          await Provider.of<Products>(context, listen: false).add(
+            _product.toProduct(),
+            insertAsFirst: true,
+          );
 
-        Fluttertoast.showToast(
-          msg: '${_product.title} has been added to your products.',
-          backgroundColor: Colors.black54,
+          Fluttertoast.showToast(
+            msg: '${_product.title} has been added to your products.',
+            backgroundColor: Colors.black54,
+          );
+        }
+      } catch (error) {
+        retry = await showDialog<bool>(
+          context: context,
+          builder: (ctx) {
+            return AlertDialog(
+              title: const Text('Error occured!'),
+              content: Text(error.toString()),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(ctx, true),
+                  child: const Text('Try again'),
+                ),
+                TextButton(
+                  onPressed: () => Navigator.pop(ctx, false),
+                  child: const Text('Cancel'),
+                ),
+              ],
+            );
+          },
         );
+      } finally {
+        setState(() => _isLoading = false);
+
+        if (retry ?? false) {
+          _saveForm();
+        } else {
+          Navigator.pop(context);
+        }
       }
-
-      Navigator.pop(context);
     }
   }
 
@@ -184,15 +216,25 @@ class _ProductPropertiesFormState extends State<ProductPropertiesForm> {
               SizedBox(
                 width: double.infinity,
                 height: 60,
-                child: ElevatedButton.icon(
-                  onPressed: _saveForm,
-                  icon: const Icon(Icons.check),
-                  label: Text(
-                    'Save',
-                    style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.onPrimary,
+                child: ElevatedButton(
+                  onPressed: _isLoading ? null : _saveForm,
+                  child: _isLoading
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.check),
+                            const SizedBox(width: 10),
+                            Text(
+                              'Save',
+                              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                    color: Theme.of(context).colorScheme.onPrimary,
+                                  ),
+                            ),
+                          ],
                         ),
-                  ),
                 ),
               ),
             ],

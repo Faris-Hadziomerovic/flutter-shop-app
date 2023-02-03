@@ -22,4 +22,13 @@ class Product with ChangeNotifier {
     notifyListeners();
     return isFavourite;
   }
+
+  Map<String, Object> toJSON() {
+    return {
+      'title': title,
+      'description': description,
+      'imageUrl': imageUrl,
+      'price': price,
+    };
+  }
 }
