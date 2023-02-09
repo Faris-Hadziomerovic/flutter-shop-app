@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../enums/filter_options.dart';
 import '../providers/cart_provider.dart';
+import '../providers/products_provider.dart';
 import '../screens/cart_screen.dart';
 import '../widgets/drawers/app_drawer.dart';
 import '../widgets/products-overview/notifications_badge.dart';
@@ -21,6 +22,12 @@ class ProductsOverviewScreen extends StatefulWidget {
 
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   FilterOptions _filterOptions = FilterOptions.all;
+
+  @override
+  void initState() {
+    super.initState();
+    Provider.of<Products>(context, listen: false).fetchAndSetAsync();
+  }
 
   void onNavigateToCart(BuildContext context) {
     Navigator.pushNamed(context, CartScreen.routeName);

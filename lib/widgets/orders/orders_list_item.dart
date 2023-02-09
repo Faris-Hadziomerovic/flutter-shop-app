@@ -70,7 +70,7 @@ class _OrdersListItemState extends State<OrdersListItem> {
                   final quantity = cartItem.quantity;
                   final priceLabel = '\$${cartItem.price.toStringAsFixed(2)}';
                   final imageUrl = context.select<Products, String>(
-                    (productsData) => productsData.getById(cartItem.id).imageUrl,
+                    (productsData) => productsData.getLocalById(cartItem.id).imageUrl,
                   );
                   // Provider.of<Products>(context, listen: false).getById(cartItem.id).imageUrl;
 

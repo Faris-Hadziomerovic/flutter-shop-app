@@ -64,7 +64,7 @@ class _ProductPropertiesFormState extends State<ProductPropertiesForm> {
 
       try {
         if (_isEditMode) {
-          Provider.of<Products>(context, listen: false).update(
+          Provider.of<Products>(context, listen: false).updateAsync(
             id: _product.id,
             updatedProduct: _product.toProduct(),
           );
@@ -74,7 +74,7 @@ class _ProductPropertiesFormState extends State<ProductPropertiesForm> {
             backgroundColor: Colors.black54,
           );
         } else {
-          await Provider.of<Products>(context, listen: false).add(
+          await Provider.of<Products>(context, listen: false).addAsync(
             _product.toProduct(),
             insertAsFirst: true,
           );

@@ -38,7 +38,7 @@ class CartListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final imageUrl = Provider.of<Products>(context).getById(id).imageUrl;
+    final imageUrl = Provider.of<Products>(context).getLocalById(id).imageUrl;
 
     return Dismissible(
       key: ValueKey(id),
