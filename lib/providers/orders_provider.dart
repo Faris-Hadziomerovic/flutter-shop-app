@@ -8,7 +8,7 @@ class Orders with ChangeNotifier {
 
   List<OrderItem> get orders => [..._orders];
 
-  void addOrders(List<CartItem> cartItems, double total) {
+  void addOrder(List<CartItem> cartItems, double total) {
     _orders.add(
       OrderItem(
         id: DateTime.now().toString(),

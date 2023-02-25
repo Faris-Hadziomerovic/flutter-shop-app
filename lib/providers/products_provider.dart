@@ -15,38 +15,7 @@ import '../helpers/http_helper.dart';
 import './product.dart';
 
 class Products with ChangeNotifier {
-  final List<Product> _localProducts = [
-    // Product(
-    //   id: 'p1',
-    //   title: 'Red Shirt',
-    //   description: 'A red shirt - it is pretty red!',
-    //   price: 29.99,
-    //   imageUrl: 'https://cdn.pixabay.com/photo/2016/10/02/22/17/red-t-shirt-1710578_1280.jpg',
-    // ),
-    // Product(
-    //   id: 'p2',
-    //   title: 'Trousers',
-    //   description: 'A nice pair of trousers.',
-    //   price: 59.99,
-    //   imageUrl:
-    //       'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Trousers%2C_dress_%28AM_1960.022-8%29.jpg/512px-Trousers%2C_dress_%28AM_1960.022-8%29.jpg',
-    // ),
-    // Product(
-    //   id: 'p3',
-    //   title: 'Yellow Scarf',
-    //   description: 'Warm and cozy - exactly what you need for the winter.',
-    //   price: 19.99,
-    //   imageUrl: 'https://live.staticflickr.com/4043/4438260868_cc79b3369d_z.jpg',
-    // ),
-    // Product(
-    //   id: 'p4',
-    //   title: 'A Pan',
-    //   description: 'Prepare any meal you want.',
-    //   price: 49.99,
-    //   imageUrl:
-    //       'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Cast-Iron-Pan.jpg/1024px-Cast-Iron-Pan.jpg',
-    // ),
-  ];
+  final List<Product> _localProducts = [];
 
   List<Product> get localProducts => [..._localProducts];
 
@@ -74,7 +43,7 @@ class Products with ChangeNotifier {
         imageUrl: responseData['imageUrl'],
         price: (responseData['price'] as num).toDouble(),
       );
-    } catch (error) {
+    } on Exception {
       throw FetchProductsException();
     }
   }
@@ -87,26 +56,19 @@ class Products with ChangeNotifier {
 
       HttpHelper.throwIfNot200(response);
 
-      final responseData = jsonDecode(response.body);
+      final responseData = jsonDecode(response.body) as Map<String, dynamic>?;
 
       _localProducts.clear();
 
       if (responseData == null) return;
 
       responseData.forEach((productId, productData) {
-        final product = Product(
-          id: productId,
-          title: productData['title'],
-          description: productData['description'],
-          imageUrl: productData['imageUrl'],
-          price: (productData['price'] as num).toDouble(),
-        );
-
+        final product = Product.fromMap(id: productId, productData: productData);
         _localProducts.add(product);
       });
 
       notifyListeners();
-    } catch (error) {
+    } on Exception {
       throw FetchProductsException();
     }
   }
@@ -115,7 +77,7 @@ class Products with ChangeNotifier {
     final url = HttpHelper.generateFirebaseURL(endpoint: Endpoints.products);
 
     try {
-      final response = await http.post(url, body: jsonEncode(product.toJSON()));
+      final response = await http.post(url, body: jsonEncode(product.toMap()));
 
       HttpHelper.throwIfNot200(response);
 
@@ -136,7 +98,7 @@ class Products with ChangeNotifier {
       }
 
       notifyListeners();
-    } catch (error) {
+    } on Exception {
       throw AddProductException();
     }
   }
@@ -149,7 +111,7 @@ class Products with ChangeNotifier {
     final url = HttpHelper.generateFirebaseURL(endpoint: '${Endpoints.products}/$id');
 
     try {
-      final response = await http.put(url, body: jsonEncode(updatedProduct.toJSON()));
+      final response = await http.put(url, body: jsonEncode(updatedProduct.toMap()));
 
       HttpHelper.throwIfNot200(response);
 
@@ -162,7 +124,7 @@ class Products with ChangeNotifier {
       );
 
       notifyListeners();
-    } catch (error) {
+    } on Exception {
       throw UpdateProductException();
     }
   }
@@ -180,9 +142,7 @@ class Products with ChangeNotifier {
       HttpHelper.throwIfNot200(response);
 
       _removeLocalById(id);
-
-      notifyListeners();
-    } catch (error) {
+    } on Exception {
       throw DeleteProductException();
     }
   }

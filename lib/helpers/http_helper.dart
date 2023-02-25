@@ -6,10 +6,9 @@ import '../constants/api_constants.dart';
 
 class HttpHelper {
   static Uri generateFirebaseURL({required String endpoint}) {
-    return Uri.https(
-      ApiConstants.firebaseAPI,
-      endpoint + ApiConstants.firebaseSuffix,
-    );
+    final path = ApiConstants.databasePath + endpoint + ApiConstants.firebaseSuffix;
+
+    return Uri.https(ApiConstants.firebaseAPI, path);
   }
 
   static void throwIfNot200(Response response, {Uri? url}) {

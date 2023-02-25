@@ -13,6 +13,10 @@ class CartItem {
 
   @override
   String toString() {
-    return '{ \n\t id: $id, \n\t name: $name, \n\t price: $price, \n\t quantity: $quantity, \n}';
+    return '''{
+      id: $id, 
+      name: $name, 
+      price: $price, 
+      quantity: $quantity, \n}''';
   }
 }

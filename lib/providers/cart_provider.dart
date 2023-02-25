@@ -26,13 +26,13 @@ class Cart with ChangeNotifier {
   }
 
   double get totalAmount {
-    double total = 0.00;
+    double totalPrice = 0.00;
 
     for (var item in _cart.values) {
-      total += item.price * item.quantity;
+      totalPrice += item.price * item.quantity;
     }
 
-    return total;
+    return totalPrice;
   }
 
   void clear() {
@@ -131,7 +131,7 @@ class Cart with ChangeNotifier {
       );
     }
 
-    _cart.removeWhere((id, item) => id == productId);
+    _cart.removeWhere((id, _) => id == productId);
 
     notifyListeners();
   }

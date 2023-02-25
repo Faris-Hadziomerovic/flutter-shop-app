@@ -1,5 +1,6 @@
 class ApiConstants {
-  static const firebaseAPI = 'shop-app-115-default-rtdb.europe-west1.firebasedatabase.app';
+  static const firebaseAPI = 'shared-flutter-apps-default-rtdb.europe-west1.firebasedatabase.app';
+  static const databasePath = '/shop-app';
   static const firebaseSuffix = '.json';
   static const firebaseGetResponseIdKey = 'name';
 }

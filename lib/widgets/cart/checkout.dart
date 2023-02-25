@@ -38,7 +38,7 @@ class Checkout extends StatelessWidget {
     final subtotal = cartData.totalAmount;
     final cartItems = cartData.cart.values.toList();
 
-    Provider.of<Orders>(context, listen: false).addOrders(cartItems, subtotal);
+    Provider.of<Orders>(context, listen: false).addOrder(cartItems, subtotal);
     Navigator.of(context).pushReplacementNamed(OrdersScreen.routeName);
     cartData.clear();
   }

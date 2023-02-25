@@ -12,4 +12,13 @@ class OrderItem {
     required this.products,
     required this.dateTime,
   });
+
+  @override
+  String toString() {
+    return '''{
+      id: $id, 
+      amount: $amount, 
+      dateTime: $dateTime, 
+      products: $products, \n}''';
+  }
 }
