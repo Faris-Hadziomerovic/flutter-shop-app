@@ -103,7 +103,10 @@ class Products with ChangeNotifier {
     }
   }
 
-  Future<void> updateAsync({required String id, required Product updatedProduct}) async {
+  Future<void> updateAsync({
+    required String id,
+    required Product updatedProduct,
+  }) async {
     var index = _localProducts.indexWhere((product) => product.id == id);
 
     if (index == -1) throw ItemDoesNotExistException();
@@ -121,6 +124,7 @@ class Products with ChangeNotifier {
         description: updatedProduct.description,
         imageUrl: updatedProduct.imageUrl,
         price: updatedProduct.price,
+        isFavourite: updatedProduct.isFavourite,
       );
 
       notifyListeners();
@@ -147,13 +151,22 @@ class Products with ChangeNotifier {
     }
   }
 
-  void toggleFavourite(String id) {
+  Future<bool> toggleFavouriteAsync(String id) async {
     var product = _localProducts.firstWhereOrNull((product) => product.id == id);
 
-    if (product != null) {
-      product.isFavourite = !product.isFavourite;
-      notifyListeners();
-    }
+    if (product == null) throw ItemDoesNotExistException();
+
+    final isFavourite = _toggleFavourite(product);
+
+    final url = HttpHelper.generateFirebaseURL(endpoint: '${Endpoints.products}/$id/isFavourite');
+
+    http.put(url, body: jsonEncode(isFavourite));
+
+    return isFavourite;
+  }
+
+  bool _toggleFavourite(Product product) {
+    return product.toggleFavourite();
   }
 
   void _removeLocal(Product product) {

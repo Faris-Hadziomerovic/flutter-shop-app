@@ -4,6 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../providers/cart_provider.dart';
 import '../../providers/product.dart';
+import '../../providers/products_provider.dart';
 import '../../screens/product_details_screen.dart';
 
 class ProductItem extends StatelessWidget {
@@ -16,15 +17,18 @@ class ProductItem extends StatelessWidget {
     );
   }
 
-  void onFavourite(BuildContext context, Product product) {
-    final isFavourite = product.toggleFavourite();
-
-    Fluttertoast.showToast(
-      backgroundColor: Colors.black54,
-      msg: isFavourite
-          ? '${product.title} added to favourites.'
-          : '${product.title} removed from favourites.',
-    );
+  void onFavourite(BuildContext context, Product product) async {
+    // final isFavourite = product.toggleFavourite();
+    Provider.of<Products>(context, listen: false)
+        .toggleFavouriteAsync(product.id)
+        .then((isFavourite) {
+      Fluttertoast.showToast(
+        backgroundColor: Colors.black54,
+        msg: isFavourite
+            ? '${product.title} added to favourites.'
+            : '${product.title} removed from favourites.',
+      );
+    });
   }
 
   void onAddToCart(BuildContext context, Product product) {
