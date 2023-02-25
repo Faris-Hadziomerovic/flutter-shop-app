@@ -40,10 +40,10 @@ class _ProductPropertiesFormState extends State<ProductPropertiesForm> {
 
   @override
   void dispose() {
-    super.dispose();
     _imageFocusNode.removeListener(_updateImageUrl);
     _imageFocusNode.dispose();
     _imageController.dispose();
+    super.dispose();
   }
 
   void _updateImageUrl() {
@@ -64,7 +64,7 @@ class _ProductPropertiesFormState extends State<ProductPropertiesForm> {
 
       try {
         if (_isEditMode) {
-          Provider.of<Products>(context, listen: false).updateAsync(
+          await Provider.of<Products>(context, listen: false).updateAsync(
             id: _product.id,
             updatedProduct: _product.toProduct(),
           );
@@ -84,7 +84,7 @@ class _ProductPropertiesFormState extends State<ProductPropertiesForm> {
             backgroundColor: Colors.black54,
           );
         }
-      } catch (error) {
+      } on Exception catch (error) {
         retry = await showDialog<bool>(
           context: context,
           builder: (ctx) {

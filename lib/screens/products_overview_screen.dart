@@ -33,6 +33,10 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
     Navigator.pushNamed(context, CartScreen.routeName);
   }
 
+  Future<void> refresh(BuildContext context) async {
+    return Provider.of<Products>(context, listen: false).fetchAndSetAsync();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +85,10 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
         ],
       ),
       drawer: const AppDrawer(currentRoute: ProductsOverviewScreen.routeName),
-      body: ProductsGrid(filterOptions: _filterOptions),
+      body: RefreshIndicator(
+        onRefresh: () => refresh(context),
+        child: ProductsGrid(filterOptions: _filterOptions),
+      ),
     );
   }
 }

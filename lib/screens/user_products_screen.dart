@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../providers/products_provider.dart';
 import '../screens/add_edit_user_products_screen.dart';
 import '../widgets/drawers/app_drawer.dart';
 import '../widgets/user-products/user_products_list_view.dart';
@@ -11,6 +13,10 @@ class UserProductsScreen extends StatelessWidget {
 
   void onAddNewProduct(BuildContext context) {
     Navigator.of(context).pushNamed(AddEditUserProductsScreen.routeName);
+  }
+
+  Future<void> refresh(BuildContext context) async {
+    return Provider.of<Products>(context, listen: false).fetchAndSetAsync();
   }
 
   @override
@@ -36,7 +42,10 @@ class UserProductsScreen extends StatelessWidget {
         icon: const Icon(Icons.add_rounded),
         label: const Text('Add new product'),
       ),
-      body: const UserProductsListView(),
+      body: RefreshIndicator(
+        onRefresh: () => refresh(context),
+        child: const UserProductsListView(),
+      ),
     );
   }
 }
