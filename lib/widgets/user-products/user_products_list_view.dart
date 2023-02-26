@@ -9,7 +9,7 @@ class UserProductsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final products = Provider.of<Products>(context).localProducts;
+    final products = Provider.of<Products>(context).products;
 
     return ListView.builder(
       padding: const EdgeInsets.symmetric(vertical: 8.0),

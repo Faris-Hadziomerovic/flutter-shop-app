@@ -13,11 +13,11 @@ class UserProductsListItem extends StatelessWidget {
     required this.product,
   });
 
-  onDelete(BuildContext context) {
-    Provider.of<Products>(context, listen: false).deleteAsync(id: product.id);
+  Future<void> onDelete(BuildContext context) async {
+    await Provider.of<Products>(context, listen: false).deleteAsync(id: product.id);
   }
 
-  onEdit(BuildContext context) {
+  void onEdit(BuildContext context) {
     Navigator.of(context).pushNamed(
       AddEditUserProductsScreen.routeName,
       arguments: product.id,

@@ -26,7 +26,7 @@ class Checkout extends StatelessWidget {
     this.direction = Axis.vertical,
   }) : assert(!(direction == Axis.horizontal && width == double.infinity));
 
-  onCheckout(BuildContext context) {
+  void onCheckout(BuildContext context) {
     // the context will be kept in the method for using the toast with context later on...
 
     Fluttertoast.showToast(
@@ -36,23 +36,20 @@ class Checkout extends StatelessWidget {
 
     final cartData = Provider.of<Cart>(context, listen: false);
     final subtotal = cartData.totalAmount;
-    final cartItems = cartData.cart.values.toList();
+    final cartItems = cartData.cart;
 
     Provider.of<Orders>(context, listen: false).addOrder(cartItems, subtotal);
     Navigator.of(context).pushReplacementNamed(OrdersScreen.routeName);
-    cartData.clear();
+    cartData.clearAsync();
   }
 
   @override
   Widget build(BuildContext context) {
-    final bgColor = backgroundColor ?? Colors.blueGrey.shade100;
-
     final cartData = Provider.of<Cart>(context);
     final canCheckout = cartData.cartIsNotEmpty;
+    final totalPriceLabel = '\$ ${cartData.totalAmount.toStringAsFixed(2)}';
 
-    final totalPrice = cartData.totalAmount;
-    final totalPriceLabel = '\$ ${totalPrice.toStringAsFixed(2)}';
-
+    final bgColor = backgroundColor ?? Colors.blueGrey.shade100;
     final textStyle =
         Theme.of(context).textTheme.titleLarge?.copyWith(color: textColor ?? Colors.black);
 

@@ -13,7 +13,7 @@ class AddEditUserProductsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final productId = ModalRoute.of(context)?.settings.arguments as String?;
     final product =
-        productId != null ? Provider.of<Products>(context).getLocalById(productId) : null;
+        productId != null ? Provider.of<Products>(context).getLocalById(id: productId) : null;
 
     return Scaffold(
       appBar: AppBar(

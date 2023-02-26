@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../models/cart_item.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/product.dart';
 import '../../providers/products_provider.dart';
@@ -17,30 +18,32 @@ class ProductItem extends StatelessWidget {
     );
   }
 
-  void onFavourite(BuildContext context, Product product) async {
-    // final isFavourite = product.toggleFavourite();
-    Provider.of<Products>(context, listen: false)
-        .toggleFavouriteAsync(product.id)
-        .then((isFavourite) {
-      Fluttertoast.showToast(
-        backgroundColor: Colors.black54,
-        msg: isFavourite
-            ? '${product.title} added to favourites.'
-            : '${product.title} removed from favourites.',
-      );
-    });
+  Future<void> onFavourite(BuildContext context, Product product) async {
+    final isFavourite =
+        await Provider.of<Products>(context, listen: false).toggleFavouriteAsync(id: product.id);
+
+    Fluttertoast.showToast(
+      backgroundColor: Colors.black54,
+      msg: isFavourite
+          ? '${product.title} added to favourites.'
+          : '${product.title} removed from favourites.',
+    );
   }
 
-  void onAddToCart(BuildContext context, Product product) {
-    Provider.of<Cart>(context, listen: false).addItem(
-      itemId: product.id,
-      title: product.title,
-      price: product.price,
+  Future<void> onAddToCart(BuildContext context, Product product) async {
+    final scaffoldMessanger = ScaffoldMessenger.of(context);
+
+    await Provider.of<Cart>(context, listen: false).addAsync(
+      cartItem: CartItem(
+        id: product.id,
+        name: product.title,
+        price: product.price,
+      ),
     );
 
-    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    scaffoldMessanger.hideCurrentSnackBar();
 
-    ScaffoldMessenger.of(context).showSnackBar(
+    scaffoldMessanger.showSnackBar(
       SnackBar(
         duration: const Duration(milliseconds: 2000),
         content: Text('${product.title} added to cart.'),
@@ -52,22 +55,17 @@ class ProductItem extends StatelessWidget {
     );
   }
 
-  void onUndoAddToCart(BuildContext context, Product product) {
-    Provider.of<Cart>(context, listen: false).removeSingleItem(
-      productId: product.id,
-    );
+  Future<void> onUndoAddToCart(BuildContext context, Product product) async {
+    final scaffoldMessanger = ScaffoldMessenger.of(context);
 
-    ScaffoldMessenger.of(context).showSnackBar(
+    await Provider.of<Cart>(context, listen: false).decreaseQuantityAsync(id: product.id);
+
+    scaffoldMessanger.showSnackBar(
       SnackBar(
         duration: const Duration(milliseconds: 2000),
         content: Text('${product.title} removed from cart.'),
       ),
     );
-
-    // Fluttertoast.showToast(
-    //   msg: '${product.title} removed from cart.',
-    //   backgroundColor: Colors.black54,
-    // );
   }
 
   @override

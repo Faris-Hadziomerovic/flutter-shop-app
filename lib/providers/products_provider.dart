@@ -6,27 +6,31 @@ import 'package:http/http.dart' as http;
 
 import '../constants/api_constants.dart';
 import '../constants/endpoints.dart';
-import '../exceptions/add_product_exception.dart';
-import '../exceptions/fetch_products_exception.dart';
-import '../exceptions/delete_product_exception.dart';
-import '../exceptions/item_does_not_exist_exception.dart';
-import '../exceptions/update_product_exception.dart';
+import '../exceptions/product/add_product_exception.dart';
+import '../exceptions/product/delete_product_exception.dart';
+import '../exceptions/product/fetch_products_exception.dart';
+import '../exceptions/product/product_not_found_exception.dart';
+import '../exceptions/product/update_product_exception.dart';
 import '../helpers/http_helper.dart';
 import './product.dart';
 
 class Products with ChangeNotifier {
   final List<Product> _localProducts = [];
 
-  List<Product> get localProducts => [..._localProducts];
+  final List<Product> _draftProducts = [];
+
+  List<Product> get products => [..._localProducts];
+
+  List<Product> get draftProducts => [..._draftProducts];
 
   List<Product> get favouriteProducts =>
       [..._localProducts.where((product) => product.isFavourite)];
 
-  Product getLocalById(String id) {
-    return localProducts.firstWhere((product) => product.id == id);
+  Product getLocalById({required String id}) {
+    return products.firstWhere((product) => product.id == id);
   }
 
-  Future<Product> getByIdAsync(String id) async {
+  Future<Product> getByIdAsync({required String id}) async {
     final url = HttpHelper.generateFirebaseURL(endpoint: '${Endpoints.products}/$id');
 
     try {
@@ -73,7 +77,7 @@ class Products with ChangeNotifier {
     }
   }
 
-  Future<void> addAsync(Product product, {bool insertAsFirst = false}) async {
+  Future<void> addAsync({required Product product, bool insertAsFirst = false}) async {
     final url = HttpHelper.generateFirebaseURL(endpoint: Endpoints.products);
 
     try {
@@ -81,7 +85,7 @@ class Products with ChangeNotifier {
 
       HttpHelper.throwIfNot200(response);
 
-      final id = jsonDecode(response.body)[ApiConstants.firebaseGetResponseIdKey];
+      final id = jsonDecode(response.body)[ApiConstants.firebasePostResponseIdKey];
 
       final newProduct = Product(
         id: id,
@@ -103,13 +107,10 @@ class Products with ChangeNotifier {
     }
   }
 
-  Future<void> updateAsync({
-    required String id,
-    required Product updatedProduct,
-  }) async {
+  Future<void> updateAsync({required String id, required Product updatedProduct}) async {
     var index = _localProducts.indexWhere((product) => product.id == id);
 
-    if (index == -1) throw ItemDoesNotExistException();
+    if (index == -1) throw ProductNotFoundException();
 
     final url = HttpHelper.generateFirebaseURL(endpoint: '${Endpoints.products}/$id');
 
@@ -136,7 +137,7 @@ class Products with ChangeNotifier {
   Future<void> deleteAsync({required String id}) async {
     var index = _localProducts.indexWhere((product) => product.id == id);
 
-    if (index == -1) throw ItemDoesNotExistException();
+    if (index == -1) throw ProductNotFoundException();
 
     final url = HttpHelper.generateFirebaseURL(endpoint: '${Endpoints.products}/$id');
 
@@ -151,10 +152,10 @@ class Products with ChangeNotifier {
     }
   }
 
-  Future<bool> toggleFavouriteAsync(String id) async {
+  Future<bool> toggleFavouriteAsync({required String id}) async {
     var product = _localProducts.firstWhereOrNull((product) => product.id == id);
 
-    if (product == null) throw ItemDoesNotExistException();
+    if (product == null) throw ProductNotFoundException();
 
     final isFavourite = _toggleFavourite(product);
 

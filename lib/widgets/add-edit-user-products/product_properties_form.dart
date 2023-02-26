@@ -75,7 +75,7 @@ class _ProductPropertiesFormState extends State<ProductPropertiesForm> {
           );
         } else {
           await Provider.of<Products>(context, listen: false).addAsync(
-            _product.toProduct(),
+            product: _product.toProduct(),
             insertAsFirst: true,
           );
 

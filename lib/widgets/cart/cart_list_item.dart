@@ -28,17 +28,17 @@ class CartListItem extends StatelessWidget {
     return '\$${price.toStringAsFixed(2)}';
   }
 
-  void onRemoveSingleItem(BuildContext context) {
-    Provider.of<Cart>(context, listen: false).removeSingleItem(productId: id);
+  Future<void> onRemoveSingleItem(BuildContext context) async {
+    await Provider.of<Cart>(context, listen: false).decreaseQuantityAsync(id: id);
   }
 
-  void onRemoveCartItemCompletely(BuildContext context) {
-    Provider.of<Cart>(context, listen: false).removeItemFromCart(productId: id);
+  Future<void> onRemoveCartItemCompletely(BuildContext context) async {
+    await Provider.of<Cart>(context, listen: false).removeAsync(id: id);
   }
 
   @override
   Widget build(BuildContext context) {
-    final imageUrl = Provider.of<Products>(context).getLocalById(id).imageUrl;
+    final imageUrl = Provider.of<Products>(context).getLocalById(id: id).imageUrl;
 
     return Dismissible(
       key: ValueKey(id),

@@ -17,7 +17,7 @@ class ProductsGrid extends StatelessWidget {
     // final products = context.watch<Products>().products;
     final products = filterOptions == FilterOptions.favourites
         ? productsProvider.favouriteProducts
-        : productsProvider.localProducts;
+        : productsProvider.products;
 
     return GridView.builder(
       padding: const EdgeInsets.symmetric(
