@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../helpers/generic_toast_messages.dart';
 import '../../providers/product.dart';
+import '../../providers/products_provider.dart';
 import '../../screens/add_edit_user_products_screen.dart';
 
 class UserProductsListItem extends StatelessWidget {
@@ -12,11 +13,11 @@ class UserProductsListItem extends StatelessWidget {
     required this.product,
   });
 
-  onDelete(BuildContext context) {
-    HelperToast.showNotImplementedToast();
+  Future<void> onDelete(BuildContext context) async {
+    await Provider.of<Products>(context, listen: false).deleteAsync(id: product.id);
   }
 
-  onEdit(BuildContext context) {
+  void onEdit(BuildContext context) {
     Navigator.of(context).pushNamed(
       AddEditUserProductsScreen.routeName,
       arguments: product.id,
@@ -31,6 +32,7 @@ class UserProductsListItem extends StatelessWidget {
         horizontal: 0,
       ),
       child: ListTile(
+        isThreeLine: false,
         contentPadding: const EdgeInsets.symmetric(horizontal: 10),
         leading: ClipRRect(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
@@ -44,10 +46,13 @@ class UserProductsListItem extends StatelessWidget {
         ),
         title: Text(
           product.title,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: Theme.of(context).textTheme.titleLarge,
         ),
         subtitle: Text(
           product.description,
+          maxLines: 1,
           overflow: TextOverflow.ellipsis,
         ),
         trailing: SizedBox(

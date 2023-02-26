@@ -30,9 +30,10 @@ class MutableProduct {
     return Product(
       id: id,
       title: title ?? 'no title provided',
-      description: description ?? 'not description provided',
+      description: description ?? 'no description provided',
       imageUrl: imageUrl ?? 'no image provided',
       price: price ?? 0.00,
+      isFavourite: isFavourite ?? false,
     );
   }
 

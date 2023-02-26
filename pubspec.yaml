@@ -18,6 +18,7 @@ dependencies:
   provider: ^6.0.5
   collection: ^1.16.0
   intl: ^0.18.0
+  http: ^0.13.5
   # shared_preferences: ^2.0.17 # for later
 
 dev_dependencies:

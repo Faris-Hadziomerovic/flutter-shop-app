@@ -14,7 +14,7 @@ class CartListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final items = Provider.of<Cart>(context).cart.values.toList();
+    final items = Provider.of<Cart>(context).cart;
 
     return SizedBox(
       height: height,

@@ -12,7 +12,8 @@ class AddEditUserProductsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final productId = ModalRoute.of(context)?.settings.arguments as String?;
-    final product = productId != null ? Provider.of<Products>(context).getById(productId) : null;
+    final product =
+        productId != null ? Provider.of<Products>(context).getLocalById(id: productId) : null;
 
     return Scaffold(
       appBar: AppBar(
