@@ -40,12 +40,9 @@ class Products with ChangeNotifier {
 
       final responseData = jsonDecode(response.body);
 
-      return Product(
+      return Product.fromMap(
         id: id,
-        title: responseData['title'],
-        description: responseData['description'],
-        imageUrl: responseData['imageUrl'],
-        price: (responseData['price'] as num).toDouble(),
+        productData: responseData,
       );
     } on Exception {
       throw FetchProductsException();
@@ -159,7 +156,9 @@ class Products with ChangeNotifier {
 
     final isFavourite = _toggleFavourite(product);
 
-    final url = HttpHelper.generateFirebaseURL(endpoint: '${Endpoints.products}/$id/isFavourite');
+    final url = HttpHelper.generateFirebaseURL(
+      endpoint: '${Endpoints.products}/$id/${Product.isFavouriteKey}',
+    );
 
     http.put(url, body: jsonEncode(isFavourite));
 

@@ -171,7 +171,7 @@ class Cart with ChangeNotifier {
     }
 
     final url = HttpHelper.generateFirebaseURL(
-      endpoint: '${Endpoints.cart}/$id/quantity',
+      endpoint: '${Endpoints.cart}/$id/${CartItem.quantityKey}',
     );
 
     try {
@@ -195,7 +195,7 @@ class Cart with ChangeNotifier {
     }
 
     final url = HttpHelper.generateFirebaseURL(
-      endpoint: '${Endpoints.cart}/$id/quantity',
+      endpoint: '${Endpoints.cart}/$id/${CartItem.quantityKey}',
     );
 
     try {
