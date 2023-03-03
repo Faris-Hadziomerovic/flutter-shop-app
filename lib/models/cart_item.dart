@@ -6,6 +6,11 @@ class CartItem {
 
   bool get isValid => id.isNotEmpty && name.isNotEmpty && price >= 0.00 && quantity >= 1;
 
+  static String get idKey => 'id';
+  static String get nameKey => 'name';
+  static String get priceKey => 'price';
+  static String get quantityKey => 'quantity';
+
   CartItem({
     required this.id,
     required this.name,
@@ -14,16 +19,17 @@ class CartItem {
   });
 
   CartItem.fromMap({required this.id, required Map<String, dynamic> cartData}) {
-    name = cartData['name'] as String;
-    price = (cartData['price'] as num).toDouble();
-    quantity = cartData['quantity'] as int;
+    name = cartData[nameKey] as String;
+    price = (cartData[priceKey] as num).toDouble();
+    quantity = cartData[quantityKey] as int;
   }
 
-  Map<String, Object> toMap() {
+  Map<String, Object> toMap({bool includeId = false}) {
     return {
-      'name': name,
-      'price': price,
-      'quantity': quantity,
+      if (includeId) idKey: id,
+      nameKey: name,
+      priceKey: price,
+      quantityKey: quantity,
     };
   }
 
