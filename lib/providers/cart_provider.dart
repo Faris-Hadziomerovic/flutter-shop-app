@@ -1,16 +1,16 @@
 import 'dart:convert';
 
-import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart';
+import 'package:collection/collection.dart';
 import 'package:http/http.dart' as http;
-import 'package:shop_app/exceptions/cart/update_quantity_exception.dart';
-import 'package:shop_app/exceptions/generic/item_not_found_exception.dart';
 
 import '../constants/endpoints.dart';
 import '../exceptions/cart/add_cart_item_exception.dart';
 import '../exceptions/cart/clear_cart_exception.dart';
 import '../exceptions/cart/fetch_cart_exception.dart';
 import '../exceptions/cart/remove_cart_item_exception.dart';
+import '../exceptions/cart/update_quantity_exception.dart';
+import '../exceptions/generic/item_not_found_exception.dart';
 import '../helpers/http_helper.dart';
 import '../models/cart_item.dart';
 
