@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../enums/filter_options.dart';
+import '../helpers/navigator_helper.dart';
 import '../providers/cart_provider.dart';
 import '../providers/products_provider.dart';
 import '../screens/cart_screen.dart';
@@ -39,55 +40,58 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-        actions: [
-          GestureDetector(
-            onTap: () => onNavigateToCart(context),
-            child: SizedBox(
-              width: 55,
-              child: Padding(
-                padding: const EdgeInsets.all(5.0),
-                child: Consumer<Cart>(
-                  builder: (_, cart, icon) => NotificationsBadge(
-                    quantity: cart.itemCount,
-                    child: icon as Widget,
+    return WillPopScope(
+      onWillPop: () => NavigatorHelper.showExitAppDialog(context),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(widget.title),
+          actions: [
+            GestureDetector(
+              onTap: () => onNavigateToCart(context),
+              child: SizedBox(
+                width: 55,
+                child: Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Consumer<Cart>(
+                    builder: (_, cart, icon) => NotificationsBadge(
+                      quantity: cart.itemCount,
+                      child: icon as Widget,
+                    ),
+                    child: const Icon(Icons.shopping_cart),
                   ),
-                  child: const Icon(Icons.shopping_cart),
                 ),
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(right: 15.0),
-            child: PopupMenuButton(
-              child: const Icon(Icons.more_vert),
-              onSelected: (value) {
-                setState(() {
-                  _filterOptions = value;
-                });
-              },
-              itemBuilder: (_) {
-                return [
-                  const PopupMenuItem(
-                    value: FilterOptions.favourites,
-                    child: Text('Show favourites'),
-                  ),
-                  const PopupMenuItem(
-                    value: FilterOptions.all,
-                    child: Text('Show all products'),
-                  ),
-                ];
-              },
+            Padding(
+              padding: const EdgeInsets.only(right: 15.0),
+              child: PopupMenuButton(
+                child: const Icon(Icons.more_vert),
+                onSelected: (value) {
+                  setState(() {
+                    _filterOptions = value;
+                  });
+                },
+                itemBuilder: (_) {
+                  return [
+                    const PopupMenuItem(
+                      value: FilterOptions.favourites,
+                      child: Text('Show favourites'),
+                    ),
+                    const PopupMenuItem(
+                      value: FilterOptions.all,
+                      child: Text('Show all products'),
+                    ),
+                  ];
+                },
+              ),
             ),
-          ),
-        ],
-      ),
-      drawer: const AppDrawer(currentRoute: ProductsOverviewScreen.routeName),
-      body: RefreshIndicator(
-        onRefresh: () => refresh(context),
-        child: ProductsGrid(filterOptions: _filterOptions),
+          ],
+        ),
+        drawer: const AppDrawer(currentRoute: ProductsOverviewScreen.routeName),
+        body: RefreshIndicator(
+          onRefresh: () => refresh(context),
+          child: ProductsGrid(filterOptions: _filterOptions),
+        ),
       ),
     );
   }

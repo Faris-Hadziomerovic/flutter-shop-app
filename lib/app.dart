@@ -9,6 +9,7 @@ import './screens/cart_screen.dart';
 import './screens/orders_screen.dart';
 import './screens/product_details_screen.dart';
 import './screens/products_overview_screen.dart';
+import './screens/settings_screen.dart';
 import './screens/user_products_screen.dart';
 
 class App extends StatelessWidget {
@@ -20,7 +21,7 @@ class App extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<Products>(create: (_) => Products()..fetchAndSetAsync()),
         ChangeNotifierProvider<Cart>(create: (_) => Cart()..fetchAndSetAsync()),
-        ChangeNotifierProvider<Orders>(create: (_) => Orders()),
+        ChangeNotifierProvider<Orders>(create: (_) => Orders()..fetchAndSetAsync()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
@@ -66,6 +67,7 @@ class App extends StatelessWidget {
           OrdersScreen.routeName: (_) => const OrdersScreen(),
           UserProductsScreen.routeName: (_) => const UserProductsScreen(),
           AddEditUserProductsScreen.routeName: (_) => const AddEditUserProductsScreen(),
+          SettingsScreen.routeName: (_) => const SettingsScreen(),
           // ___Screen.routeName: (_) => const ___Screen(),
         },
       ),

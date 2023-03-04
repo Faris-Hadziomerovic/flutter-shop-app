@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../../helpers/generic_toast_messages.dart';
 import '../../screens/cart_screen.dart';
 import '../../screens/orders_screen.dart';
 import '../../screens/products_overview_screen.dart';
+import '../../screens/settings_screen.dart';
 import '../../screens/user_products_screen.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -39,8 +39,7 @@ class AppDrawer extends StatelessWidget {
   }
 
   void navigateToSettings(BuildContext context) {
-    HelperToast.showNotImplementedToast();
-    // Navigator.of(context).pushReplacementNamed(SettingsScreen.routeName);
+    Navigator.of(context).pushNamed(SettingsScreen.routeName);
   }
 
   Widget listTileWithBorder({

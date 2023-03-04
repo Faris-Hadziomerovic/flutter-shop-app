@@ -5,8 +5,8 @@ import 'package:http/http.dart' as http;
 
 import '../constants/api_constants.dart';
 import '../constants/endpoints.dart';
-import '../exceptions/order/add_product_exception.dart';
-import '../exceptions/order/fetch_products_exception.dart';
+import '../exceptions/order/add_order_exception.dart';
+import '../exceptions/order/fetch_orders_exception.dart';
 import '../helpers/http_helper.dart';
 import '../models/cart_item.dart';
 import '../models/order_item.dart';

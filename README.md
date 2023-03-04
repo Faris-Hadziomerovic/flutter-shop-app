@@ -1,6 +1,84 @@
 # Flutter Shop App
 
-A new Flutter eCommerce sort of project.
+## Welcome to my e-Shop project!
+
+This is a personal project through which I am learning flutter. 
+It's an eCommerce application that is currently working with [Firebase](https://firebase.google.com/) as it's backend. 
+Here you will see many patterns in action and how they are implemented. 
+
+Some of them are:
+- page navigation 
+- state managment with `Provider`
+- networking with `http`
+
+## Getting Started
+
+To get a local copy up and running follow the steps below: 
+
+### Prerequisites
+
+Before running the application, make sure you have the following installed on your system: 
+
+- [Flutter SDK](https://flutter.dev/docs/get-started/install)
+- [VS Code](https://code.visualstudio.com/) installed along with the [Flutter extension](https://flutter.dev/docs/get-started/editor?tab=vscode) *(this is a recommendation, so you can use the GUI)*
+
+<br>
+
+### Running the App
+
+1. Clone the repo to your local machine with the following command:
+
+   ```sh
+   git clone https://github.com/Faris-Hadziomerovic/flutter-shop-app.git
+   ```
+
+<br>
+
+2. Open the project folder in VS Code *(recommended)* 
+
+<br>
+
+3. Install packages by running the command:
+
+   ```sh
+   flutter pub get
+   ```
+
+<br>
+
+4. To select a device you can:
+    - open the command pallete with `Ctrl+Shift+P` and enter `Flutter: Select Device`
+    - or open the device selection menu from the bottom tool bar
+
+<br>
+
+5. To run the app you can:
+    - press F5 or click on the `Run` button in the top toolbar *(recommended for all but web)*
+    - run one of the following commands:
+    
+    ```sh    
+    # standard:
+    > flutter run
+    
+    # for web (chrome):
+    > flutter run -d chrome --web-renderer html
+
+    ```
+
+<br>
+
+6. The app should launch in the emulator, web or on your physical device if it's connected
+
+
+<br>
+
+---
+
+<br>
+
+## Screenshots and  explanations
+
+<br>
 
 This is the first and main screen showing an overview of products and some actions that can be performed like pull to refresh, favourite and add to cart.
 On the second image we can see the globally-available side-menu used for navigating through the following screens.

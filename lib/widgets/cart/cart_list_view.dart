@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants/placeholder_messages.dart';
+import '../../helpers/placeholder_helper.dart';
 import '../../providers/cart_provider.dart';
 import './cart_list_item.dart';
 
@@ -19,16 +21,7 @@ class CartListView extends StatelessWidget {
     return SizedBox(
       height: height,
       child: items.isEmpty
-          ? Center(
-              child: Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Text(
-                  'The cart is currently empty, go out there and add something 😊',
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ),
-            )
+          ? PlaceholderHelper.showPlaceholderText(context, text: PlaceholderMessages.cartIsEmpty)
           : ListView.builder(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               itemCount: items.length,
