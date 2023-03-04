@@ -11,6 +11,8 @@ Some of them are:
 - state managment with `Provider`
 - networking with `http`
 
+<br>
+
 ## Getting Started
 
 To get a local copy up and running follow the steps below: 
