@@ -21,7 +21,7 @@ class App extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<Products>(create: (_) => Products()..fetchAndSetAsync()),
         ChangeNotifierProvider<Cart>(create: (_) => Cart()..fetchAndSetAsync()),
-        ChangeNotifierProvider<Orders>(create: (_) => Orders()),
+        ChangeNotifierProvider<Orders>(create: (_) => Orders()..fetchAndSetAsync()),
       ],
       child: MaterialApp(
         title: 'Flutter Demo',
