@@ -27,12 +27,12 @@ class NavigatorHelper {
                 content: const Text('If you exit the app, all unsaved progress will be lost.'),
                 actions: [
                   TextButton(
-                    onPressed: () => Navigator.pop(ctx, true),
-                    child: const Text('Leave'),
-                  ),
-                  TextButton(
                     onPressed: () => Navigator.pop(ctx, false),
                     child: const Text('Stay'),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.pop(ctx, true),
+                    child: const Text('Leave'),
                   ),
                 ],
               );
