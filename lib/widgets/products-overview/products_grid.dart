@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../constants/placeholder_messages.dart';
 import '../../enums/filter_options.dart';
+import '../../helpers/placeholder_helper.dart';
 import '../../providers/products_provider.dart';
 import './product_item.dart';
 
@@ -19,25 +21,27 @@ class ProductsGrid extends StatelessWidget {
         ? productsProvider.favouriteProducts
         : productsProvider.products;
 
-    return GridView.builder(
-      padding: const EdgeInsets.symmetric(
-        vertical: 5,
-        horizontal: 5,
-      ),
-      scrollDirection: Axis.vertical,
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: orientation == Orientation.portrait ? 2 : 3,
-        childAspectRatio: 2.5 / 2,
-        crossAxisSpacing: 5,
-        mainAxisSpacing: 5,
-      ),
-      itemCount: products.length,
-      itemBuilder: (context, index) {
-        return ChangeNotifierProvider.value(
-          value: products[index],
-          child: const ProductItem(),
-        );
-      },
-    );
+    return products.isEmpty
+        ? PlaceholderHelper.showPlaceholderText(context, text: PlaceholderMessages.noProducts)
+        : GridView.builder(
+            padding: const EdgeInsets.symmetric(
+              vertical: 5,
+              horizontal: 5,
+            ),
+            scrollDirection: Axis.vertical,
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: orientation == Orientation.portrait ? 2 : 3,
+              childAspectRatio: 2.5 / 2,
+              crossAxisSpacing: 5,
+              mainAxisSpacing: 5,
+            ),
+            itemCount: products.length,
+            itemBuilder: (context, index) {
+              return ChangeNotifierProvider.value(
+                value: products[index],
+                child: const ProductItem(),
+              );
+            },
+          );
   }
 }

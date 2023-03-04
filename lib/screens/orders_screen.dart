@@ -26,7 +26,18 @@ class OrdersScreen extends StatelessWidget {
         drawer: const AppDrawer(currentRoute: routeName),
         body: RefreshIndicator(
           onRefresh: () => refresh(context),
-          child: const OrdersList(),
+          child: FutureBuilder(
+              future: Future.delayed(
+                const Duration(seconds: 5),
+                Provider.of<Orders>(context, listen: false).fetchAndSetAsync,
+              ),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                } else {
+                  return const OrdersList();
+                }
+              }),
         ),
       ),
     );
