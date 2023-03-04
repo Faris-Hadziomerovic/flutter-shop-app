@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../helpers/generic_toast_messages.dart';
 import '../../models/cart_item.dart';
 import '../../providers/cart_provider.dart';
 import '../../providers/product.dart';
@@ -22,9 +22,8 @@ class ProductItem extends StatelessWidget {
     final isFavourite =
         await Provider.of<Products>(context, listen: false).toggleFavouriteAsync(id: product.id);
 
-    Fluttertoast.showToast(
-      backgroundColor: Colors.black54,
-      msg: isFavourite
+    HelperToast.show(
+      message: isFavourite
           ? '${product.title} added to favourites.'
           : '${product.title} removed from favourites.',
     );

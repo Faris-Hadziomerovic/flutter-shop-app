@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
+import '../../helpers/generic_toast_messages.dart';
 import '../../helpers/input_helper.dart';
 import '../../helpers/validator.dart';
 import '../../models/mutable_product.dart';
@@ -69,9 +69,8 @@ class _ProductPropertiesFormState extends State<ProductPropertiesForm> {
             updatedProduct: _product.toProduct(),
           );
 
-          Fluttertoast.showToast(
-            msg: '${_product.title} has been updated.',
-            backgroundColor: Colors.black54,
+          HelperToast.show(
+            message: '${_product.title} has been updated.',
           );
         } else {
           await Provider.of<Products>(context, listen: false).addAsync(
@@ -79,9 +78,8 @@ class _ProductPropertiesFormState extends State<ProductPropertiesForm> {
             insertAsFirst: true,
           );
 
-          Fluttertoast.showToast(
-            msg: '${_product.title} has been added to your products.',
-            backgroundColor: Colors.black54,
+          HelperToast.show(
+            message: '${_product.title} has been added to your products.',
           );
         }
       } on Exception catch (error) {
