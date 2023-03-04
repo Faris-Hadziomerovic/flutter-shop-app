@@ -6,12 +6,14 @@ import 'package:http/http.dart' as http;
 
 import '../constants/api_constants.dart';
 import '../constants/endpoints.dart';
+import '../exceptions/backup/product_recovery_exception.dart';
 import '../exceptions/product/add_product_exception.dart';
 import '../exceptions/product/delete_product_exception.dart';
 import '../exceptions/product/fetch_products_exception.dart';
 import '../exceptions/product/product_not_found_exception.dart';
 import '../exceptions/product/update_product_exception.dart';
 import '../helpers/http_helper.dart';
+import '../services/backup_service.dart';
 import './product.dart';
 
 class Products with ChangeNotifier {
@@ -74,6 +76,37 @@ class Products with ChangeNotifier {
     }
   }
 
+  Future<void> recoverBackupAsync() async {
+    try {
+      var recoveredProducts = await BackupService.recoverProductsAsync();
+
+      if (recoveredProducts.isEmpty) return;
+
+      await fetchAndSetAsync();
+
+      recoveredProducts = _getMissingProducts(recoveredProducts);
+
+      final url = HttpHelper.generateFirebaseURL(endpoint: Endpoints.products);
+
+      for (final product in recoveredProducts) {
+        final response = await http.patch(
+          url,
+          body: jsonEncode(
+            {product.id: product.toMap()},
+          ),
+        );
+
+        HttpHelper.throwIfNot200(response);
+
+        _localProducts.add(product);
+      }
+
+      notifyListeners();
+    } on Exception {
+      throw ProductRecoveryException();
+    }
+  }
+
   Future<void> addAsync({required Product product, bool insertAsFirst = false}) async {
     final url = HttpHelper.generateFirebaseURL(endpoint: Endpoints.products);
 
@@ -91,6 +124,8 @@ class Products with ChangeNotifier {
         description: product.description,
         imageUrl: product.imageUrl,
       );
+
+      await BackupService.backupProductAsync(newProduct);
 
       if (insertAsFirst) {
         _localProducts.insert(0, newProduct);
@@ -167,6 +202,12 @@ class Products with ChangeNotifier {
 
   bool _toggleFavourite(Product product) {
     return product.toggleFavourite();
+  }
+
+  List<Product> _getMissingProducts(List<Product> recoveredProducts) {
+    final existingProductIds = _localProducts.map((product) => product.id).toSet();
+
+    return recoveredProducts.where((product) => existingProductIds.add(product.id)).toList();
   }
 
   void _removeLocal(Product product) {

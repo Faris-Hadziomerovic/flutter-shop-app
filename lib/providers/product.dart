@@ -32,8 +32,9 @@ class Product with ChangeNotifier {
     isFavourite = productData[isFavouriteKey] as bool? ?? false;
   }
 
-  Map<String, Object> toMap() {
+  Map<String, Object> toMap({bool includeId = false}) {
     return {
+      if (includeId) idKey: id,
       titleKey: title,
       descriptionKey: description,
       imageUrlKey: imageUrl,
