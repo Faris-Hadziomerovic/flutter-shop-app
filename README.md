@@ -1,6 +1,6 @@
 # Flutter Shop App
 
-## Welcome to my e-Shop project!
+### Welcome to my e-Shop project!
 
 This is a personal project through which I am learning flutter. 
 It's an eCommerce application that is currently working with [Firebase](https://firebase.google.com/) as it's backend. 
@@ -10,6 +10,8 @@ Some of them are:
 - page navigation 
 - state managment with `Provider`
 - networking with `http`
+
+<br>
 
 ## Getting Started
 
@@ -56,14 +58,13 @@ Before running the application, make sure you have the following installed on yo
     - press F5 or click on the `Run` button in the top toolbar *(recommended for all but web)*
     - run one of the following commands:
     
-    ```sh    
-    # standard:
-    > flutter run
-    
-    # for web (chrome):
-    > flutter run -d chrome --web-renderer html
-
-    ```
+        ```sh    
+        # standard:
+        > flutter run
+        
+        # for web (chrome):
+        > flutter run -d chrome --web-renderer html
+        ```
 
 <br>
 
@@ -72,11 +73,7 @@ Before running the application, make sure you have the following installed on yo
 
 <br>
 
----
-
-<br>
-
-## Screenshots and  explanations
+## Preview
 
 <br>
 
