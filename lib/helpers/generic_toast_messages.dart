@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shop_app/theme/app_colors.dart';
 
 import '../constants/exception_messages.dart';
 
 class HelperToast {
-  static Color toastBackgroundColor = Colors.black54;
+  static Color toastBackgroundColor = AppColors.overlayColor;
 
   static void show({required String message}) {
     Fluttertoast.showToast(

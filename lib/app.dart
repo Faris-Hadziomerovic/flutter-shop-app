@@ -11,6 +11,7 @@ import './screens/product_details_screen.dart';
 import './screens/products_overview_screen.dart';
 import './screens/settings_screen.dart';
 import './screens/user_products_screen.dart';
+import './theme/app_theme.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -24,41 +25,8 @@ class App extends StatelessWidget {
         ChangeNotifierProvider<Orders>(create: (_) => Orders()..fetchAndSetAsync()),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.red,
-            primary: Colors.red,
-            secondary: Colors.amber,
-          ),
-          textTheme: const TextTheme(),
-          floatingActionButtonTheme: const FloatingActionButtonThemeData(
-            backgroundColor: Colors.red,
-            splashColor: Colors.amber,
-            foregroundColor: Colors.white,
-            iconSize: 30,
-            extendedTextStyle: TextStyle(
-              fontSize: 17,
-            ),
-          ),
-          snackBarTheme: const SnackBarThemeData(
-            elevation: 0,
-            backgroundColor: Colors.black54,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(
-                top: Radius.circular(10),
-              ),
-            ),
-          ),
-          cardTheme: const CardTheme(
-            elevation: 5,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.all(
-                Radius.circular(15),
-              ),
-            ),
-          ),
-        ),
+        title: 'My Flutter Shop App',
+        theme: AppTheme.appThemeData,
         home: const ProductsOverviewScreen(),
         routes: {
           ProductsOverviewScreen.routeName: (_) => const ProductsOverviewScreen(),
