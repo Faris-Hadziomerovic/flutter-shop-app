@@ -89,7 +89,7 @@ class _OrdersListItemState extends State<OrdersListItem> {
                       title,
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
-                    subtitle: Text("$quantity × $priceLabel"),
+                    subtitle: Text('$quantity × $priceLabel'),
                   );
                 }).toList(),
               ],

@@ -113,7 +113,7 @@ class CartListItem extends StatelessWidget {
             title,
             style: Theme.of(context).textTheme.titleLarge,
           ),
-          subtitle: Text("$quantity × $priceLabel"),
+          subtitle: Text('$quantity × $priceLabel'),
         ),
       ),
     );
