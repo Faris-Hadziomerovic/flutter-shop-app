@@ -44,5 +44,10 @@ class AppTheme {
             ),
           ),
         ),
+        textButtonTheme: const TextButtonThemeData(
+          style: ButtonStyle(
+            visualDensity: VisualDensity.compact,
+          ),
+        ),
       );
 }
