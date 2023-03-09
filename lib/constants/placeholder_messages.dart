@@ -1,6 +1,8 @@
 /// Messages to show if there is no data to display
 /// or in general if a placeholder is required.
 class PlaceholderMessages {
+  static const outOfOrder = 'Out of order.';
+  static const classified = 'Classified';
   static const workInProgress = 'Work in progress...';
   static const cartIsEmpty = 'Your cart is currently empty, go out there and add something 😊';
   static const ordersAreEmpty = "You haven't placed any orders, go out there and buy something 😊";
