@@ -24,8 +24,14 @@ class InputHelper {
     Color? enabledColor,
     Color? disabledColor = Colors.blueGrey,
     Color? errorColor = Colors.red,
+    int? errorMaxLines,
+    FloatingLabelAlignment? floatingLabelAlignment,
+    FloatingLabelBehavior? floatingLabelBehavior,
   }) {
     return InputDecoration(
+      errorMaxLines: errorMaxLines,
+      floatingLabelAlignment: floatingLabelAlignment,
+      floatingLabelBehavior: floatingLabelBehavior,
       labelText: labelText,
       prefixText: prefixText,
       suffixText: suffixText,

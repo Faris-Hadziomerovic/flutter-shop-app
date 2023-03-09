@@ -61,6 +61,23 @@ class Validator {
     return null;
   }
 
+  static String? validateUsername(String? username) {
+    if (username?.isEmpty ?? true) return ValidationMessages.usernameMissing;
+
+    if (ValidatorConstants.usernameMinLength > username!.length ||
+        username.length > ValidatorConstants.usernameMaxLength) {
+      return ValidationMessages.usernameLength;
+    }
+
+    final result = RegExp(ValidatorConstants.usernamePattern).firstMatch(username);
+
+    if (result == null) {
+      return ValidationMessages.usernameInvalid;
+    }
+
+    return null;
+  }
+
   static String? validateEmail(String? email) {
     if (email?.isEmpty ?? true) return ValidationMessages.emailMissing;
 

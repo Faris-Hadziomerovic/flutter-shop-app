@@ -18,6 +18,12 @@ class ValidationMessages {
   static const imageUrlMissing = 'Please provide an image URL';
   static const imageUrlInvalid =
       'Please provide a valid image URL \n(it should end in png, jpg, jpeg, git or webp)';
+  static const usernameMissing = 'Please enter your username.';
+  static const usernameInvalid =
+      'The username is not valid. It must start with a letter and can contain only alphanumeric, dash (-) and underscore (_) characters.';
+  static const usernameIsTaken = 'The username is already \ntaken, please choose another one.';
+  static const usernameLength =
+      'The username should be between ${ValidatorConstants.usernameMinLength} and ${ValidatorConstants.usernameMaxLength} characters long.';
   static const emailMissing = 'Please provide an email';
   static const emailInvalid = 'Please provide a valid email.';
   static const passwordConfirmationMissing = 'Please re-enter the password';

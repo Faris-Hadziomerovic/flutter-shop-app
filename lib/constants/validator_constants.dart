@@ -1,11 +1,14 @@
 /// The central place for constants used in various validations.
 class ValidatorConstants {
+  static const usernameMinLength = 4;
+  static const usernameMaxLength = 20;
   static const passwordMinLength = 8;
   static const descriptionMinLength = 10;
   static const descriptionMaxLength = 499;
   static const titleMinLength = 3;
   static const titleMaxLength = 34;
 
+  static const usernamePattern = r'^[a-zA-Z]+[a-zA-Z0-9-_]*$';
   static const specialCharactersPattern = r'[-_@$!%*#?&]+';
   static const digitsPattern = r'\d+';
   static const letterPattern = r'[a-zA-Z]+';
