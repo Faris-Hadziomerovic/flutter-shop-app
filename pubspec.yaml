@@ -32,9 +32,9 @@ dev_dependencies:
 flutter_icons:
   web: 
     generate: true
-    image_path: assets/icons/astronaut_shopping/android/play_store_512.png
+    image_path: assets/icons/astronaut_shopping/giddy_astronaut_shopping.png
   android: true
-  image_path: assets/icons/astronaut_shopping/android/play_store_512.png
+  image_path: assets/icons/astronaut_shopping/giddy_astronaut_shopping.png
   # adaptive_icon_background: assets/icons/android/res/mipmap-xxxhdpi/app_launcher_icon_background.png
   # adaptive_icon_foreground: assets/icons/android/res/mipmap-hdpi/app_launcher_icon_foreground.png
 
