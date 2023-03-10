@@ -27,6 +27,18 @@ dev_dependencies:
 
   flutter_lints: ^2.0.0
 
+  flutter_launcher_icons: ^0.12.0
+
+flutter_icons:
+  web: 
+    generate: true
+    image_path: assets/icons/astronaut_shopping/android/play_store_512.png
+  android: true
+  image_path: assets/icons/astronaut_shopping/android/play_store_512.png
+  # adaptive_icon_background: assets/icons/android/res/mipmap-xxxhdpi/app_launcher_icon_background.png
+  # adaptive_icon_foreground: assets/icons/android/res/mipmap-hdpi/app_launcher_icon_foreground.png
+
+
 
 flutter:
 
